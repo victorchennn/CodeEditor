@@ -121,8 +121,10 @@ class SignIn {
                 s2 += c;
             }
             /*
-             * ....
+             * .....
              */
+            frame.setVisible(false);
+            new GUI();
         });
         frame.add(getstarted);
     }

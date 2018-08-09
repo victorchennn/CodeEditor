@@ -4,6 +4,8 @@ import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.Arrays;
 
@@ -16,7 +18,7 @@ public class GUI {
         new GUI();
     }
 
-    private GUI() {
+    GUI() {
         JFrame _frame = new JFrame();
         _frame.setSize(1200, 800);
         _frame.setLocation(150, 100);
@@ -27,14 +29,25 @@ public class GUI {
         _container.add(createRightPanel());
 
         _frame.add(_container);
-        Menubar menubar = new Menubar();
+        _menubar = new Menubar(this);
+        _frame.setJMenuBar(_menubar.createMenuBar());
 
-        _frame.setJMenuBar(menubar.createMenuBar());
         _frame.setVisible(true);
         _frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        run();
     }
 
+    void run() {
 
+    }
+
+    JTabbedPane getTextArea() {
+        return _textarea;
+    }
+
+    Menubar getMenubar() {
+        return _menubar;
+    }
 
     private JPanel createLeftPanel() {
         JPanel panel = new JPanel(new BorderLayout());
@@ -47,7 +60,20 @@ public class GUI {
             TreePath path = e.getNewLeadSelectionPath();
             DefaultMutableTreeNode node =
                     (DefaultMutableTreeNode) path.getLastPathComponent();
-            /* ...*/
+            /* NEED to be fixed. */
+        });
+        dic.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int selRow = dic.getRowForLocation(e.getX(), e.getY());
+                if (selRow != -1) {
+                    TreePath selpath = dic.getPathForLocation(e.getX(), e.getY());
+                    /* NEED to be fixed. */
+                    if (e.getClickCount() == 2) {
+                         System.out.println("double click");  /* NEED to be fixed. */
+                    }
+                }
+            }
         });
         panel.add(BorderLayout.CENTER, new JScrollPane(dic));
         return panel;
@@ -56,15 +82,9 @@ public class GUI {
     private JPanel createRightPanel() {
         JPanel panel = new JPanel();
         panel.setPreferredSize(new Dimension(900, 800));
-        JTabbedPane tp = new JTabbedPane();
-
-        JTextArea ta = new JTextArea(200,200);
-        tp.addTab("A", new JScrollPane(ta));
-        JTextArea tb = new JTextArea(200,200);
-        tp.addTab("B", new JScrollPane(tb));
-
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
-        panel.add(tp);
+        _textarea = new JTabbedPane();
+        panel.add(_textarea);
         return panel;
     }
 
@@ -96,4 +116,9 @@ public class GUI {
             }
         }
     }
+
+    private Menubar _menubar;
+
+    /** Typing area. */
+    private JTabbedPane _textarea;
 }
