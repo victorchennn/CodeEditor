@@ -8,7 +8,7 @@ import java.io.File;
 /**
  *  @author Victor Chen
  */
-class Menubar implements ActionListener{
+class Menubar {
 
     Menubar(GUI gui) {
         _menuBar = new JMenuBar();
@@ -24,23 +24,15 @@ class Menubar implements ActionListener{
         return _menuBar;
     }
 
-    public void actionPerformed(ActionEvent e) {
-        switch (e.getActionCommand()) {
-            case NEW_FILE: _manager.newFile(); break;
-            case OPEN: _manager.openFile(); break;
-            case REOPEN_LAST: _manager.openLastFile(); break;
-            case SAVE: _manager.saveFile(); break;
-            case SAVE_AS: _manager.saveAsFile(); break;
-            case CLOSE_TAB: _manager.closeFile(); break;
-            case CLEAR_H: _manager.clearHistory(); break;
-        }
+    FileManagement getManager() {
+        return _manager;
     }
 
     /** Create Signature Menu. */
     private void createSignMenu() {
         JMenu menu = createMenu(SIGN, _menuBar);
         menu.setFont(SIGN_FONT);
-        createMenuItem(ABOUT, menu, this);
+//        createMenuItem(ABOUT, menu, this);
         menu.addSeparator();
         createMenuItem(QUIT, menu, KeyEvent.VK_Q, false, e -> System.exit(0));
     }
@@ -49,20 +41,20 @@ class Menubar implements ActionListener{
     private void createFileMenu() {
         JMenu menu = createMenu(FILE, _menuBar);
         createMenuItem(NEW_WINDOW, menu, KeyEvent.VK_N, true, e -> new GUI());
-        createMenuItem(NEW_FILE, menu, KeyEvent.VK_N, false, this);
-        createMenuItem(OPEN, menu, KeyEvent.VK_O, false, this);
+        createMenuItem(NEW_FILE, menu, KeyEvent.VK_N, false, e -> _manager.newFile());
+        createMenuItem(OPEN, menu, KeyEvent.VK_O, false, e -> _manager.openFile());
         _reopen = createMenu(REOPEN, menu);
         _reopen.setEnabled(false);
-        _reopenlast = createMenuItem(REOPEN_LAST, menu, KeyEvent.VK_T, true, this);
+        _reopenlast = createMenuItem(REOPEN_LAST, menu, KeyEvent.VK_T, true, e -> _manager.openLastFile());
         _reopenlast.setEnabled(false);
         menu.addSeparator();
-        createMenuItem(SAVE, menu, KeyEvent.VK_S, false, this);
-        createMenuItem(SAVE_AS, menu, KeyEvent.VK_S, true, this);
-        createMenuItem(SAVE_ALL, menu, this);
+        createMenuItem(SAVE, menu, KeyEvent.VK_S, false, e -> _manager.saveFile());
+        createMenuItem(SAVE_AS, menu, KeyEvent.VK_S, true, e -> _manager.saveAsFile());
+        createMenuItem(SAVE_ALL, menu, e -> _manager.saveAll());
         menu.addSeparator();
-        createMenuItem(CLOSE_TAB, menu, KeyEvent.VK_W, false, this);
-        createMenuItem(CLOSE_WINDOW, menu, KeyEvent.VK_W, true, this);
-        createMenuItem(CLOSE_ALL, menu, this);
+        createMenuItem(CLOSE_TAB, menu, KeyEvent.VK_W, false, e -> _manager.closeFile());
+//        createMenuItem(CLOSE_WINDOW, menu, KeyEvent.VK_W, true, e -> );
+        createMenuItem(CLOSE_ALL, menu, e -> _manager.closeAll());
     }
 
     /** Create history JMenuItems in REOPEN JMenu. */
@@ -70,11 +62,11 @@ class Menubar implements ActionListener{
         _reopen.setEnabled(true);
         _reopenlast.setEnabled(true);
         _reopen.removeAll();
-        createMenuItem(CLEAR_H, _reopen, this);
+        createMenuItem(CLEAR_H, _reopen, e -> _manager.clearHistory());
         _reopen.addSeparator();
-        for (File f : _manager.getHistory()) {
-            JMenuItem newItem = new JMenuItem(f.getAbsolutePath());
-            newItem.addActionListener(e -> _manager.open(f));
+        for (Editor ed : _manager.getHistory()) {
+            JMenuItem newItem = new JMenuItem(ed.getFile().getAbsolutePath());
+            newItem.addActionListener(e -> _manager.open(ed.getFile()));
             _reopen.add(newItem, 2);
         }
     }
@@ -108,9 +100,9 @@ class Menubar implements ActionListener{
     }
 
     /** Add a menuitem without accelerator to MENU. */
-    private JMenuItem createMenuItem(String command, JMenu toMenu,
+    private void createMenuItem(String command, JMenu toMenu,
                                 ActionListener actListener) {
-        return createMenuItem(command, toMenu, 0, false, actListener);
+        createMenuItem(command, toMenu, 0, false, actListener);
     }
 
     /** Add a menuitem to MENU. If it has an accelerator key, use ctrl or

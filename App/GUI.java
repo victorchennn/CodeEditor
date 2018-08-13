@@ -6,6 +6,8 @@ import javax.swing.tree.TreePath;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.Arrays;
 
@@ -33,12 +35,13 @@ public class GUI {
         _frame.setJMenuBar(_menubar.createMenuBar());
 
         _frame.setVisible(true);
-        _frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        run();
-    }
-
-    void run() {
-
+        _frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                getMenubar().getManager().closeAll();
+                _frame.dispatchEvent(new WindowEvent(_frame, WindowEvent.WINDOW_CLOSED));
+            }
+        });
     }
 
     JTabbedPane getTextArea() {
@@ -52,7 +55,8 @@ public class GUI {
     private JPanel createLeftPanel() {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setPreferredSize(new Dimension(300, 800));
-        File file = new File(System.getProperty("user.dir"));
+        String curpath = System.getProperty("user.dir");
+        File file = new File(curpath);
         DefaultMutableTreeNode cur = new DefaultMutableTreeNode(file.getName());
         createDicTree(file, cur);
         JTree dic = new JTree(cur);
@@ -68,9 +72,14 @@ public class GUI {
                 int selRow = dic.getRowForLocation(e.getX(), e.getY());
                 if (selRow != -1) {
                     TreePath selpath = dic.getPathForLocation(e.getX(), e.getY());
-                    /* NEED to be fixed. */
                     if (e.getClickCount() == 2) {
-                         System.out.println("double click");  /* NEED to be fixed. */
+                        String abpath = curpath;
+                        Object[] path = Arrays.copyOfRange(selpath.getPath(), 1, selpath.getPath().length);
+                        for (Object o : path) {
+                            abpath += "/" + o;
+                        }
+                        File selected = new File(abpath);
+                        _menubar.getManager().open(selected);                   /* NEED to be fixed. */
                     }
                 }
             }
@@ -116,6 +125,18 @@ public class GUI {
             }
         }
     }
+
+    void createNumberBar(int x) {
+        _label.removeAll();
+        _label.add(Box.createRigidArea(new Dimension(0, 33)));
+        for (int i = 0; i <= x; i++) {
+            JLabel index = new JLabel(Integer.toString(i));
+            index.setAlignmentX(JLabel.RIGHT_ALIGNMENT);
+            _label.add(index);
+        }
+    }
+
+    private JPanel _label;
 
     private Menubar _menubar;
 

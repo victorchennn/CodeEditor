@@ -2,6 +2,7 @@ package App;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.*;
 import java.io.*;
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -25,6 +26,18 @@ class FileManagement {
         _filechooser.setCurrentDirectory(new File(current_path));
     }
 
+    /** Create a new empty editor. */
+    void newFile() {
+        JTabbedPane textarea = _gui.getTextArea();
+        String entertitle = "<html>Enter the name for the new file.<br><br></html>";
+        String title = JOptionPane.showInputDialog(null, entertitle, "Untitled");
+        Editor newone = new Editor(new File(title), true);
+        JPanel editorArea = createEditorArea(newone);
+        textarea.addTab(title, new JScrollPane(editorArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER));
+        _history.add(newone);
+    }
+
     /** Open the user selected file. */
     void openFile() {
         int value = _filechooser.showOpenDialog(null);
@@ -36,15 +49,17 @@ class FileManagement {
 
     /** Open the last recorded file. */
     void openLastFile() {
-        open(_history.peekLast());
+        open(_history.peekLast().getFile());
     }
 
     /** Open file FILE, add it to editor. */
     void open(File file) {
         String title = file.getName();
         Editor editor = new Editor(file, false);
-        _gui.getTextArea().addTab(title, editor);
-        updateHistory(file);
+        JPanel editorArea = createEditorArea(editor);
+        _gui.getTextArea().addTab(title, new JScrollPane(editorArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER));
+        updateHistory(editor);
         _gui.getMenubar().createHistory();
     }
 
@@ -85,6 +100,13 @@ class FileManagement {
         }
     }
 
+    /** Save all the files in history. */
+    void saveAll() {
+        for (Editor e : _history) {
+            saveFile();
+        }
+    }
+
     /** Write contents in editor EDITOR to file. */
     private void save(Editor editor) {
         try {
@@ -95,14 +117,6 @@ class FileManagement {
         } catch (IOException e) {
             /* Ignore IOException. */
         }
-    }
-
-    /** Create a new empty editor. */
-    void newFile() {
-        JTabbedPane textarea = _gui.getTextArea();
-        String entertitle = "<html>Enter the name for the new file.<br><br></html>";
-        String title = JOptionPane.showInputDialog(null, entertitle, "Untitled");
-        textarea.addTab(title, new Editor(new File(title), true));
     }
 
     /** Close the currently working on file, choose to save it or not. */
@@ -124,8 +138,15 @@ class FileManagement {
         }
     }
 
+    /** Close all the files in history. */
+    void closeAll() {
+        for (Editor e : _history) {
+            closeFile();
+        }
+    }
+
     /** Get the history records. */
-    Deque<File> getHistory() {
+    Deque<Editor> getHistory() {
         return _history;
     }
 
@@ -134,22 +155,32 @@ class FileManagement {
         _history.clear();
     }
 
+
     /** Update the history array, put newest file at last position. */
-    private void updateHistory(File newFile) {
-        for (File f : _history) {
-            if (f.getAbsolutePath().equals(newFile.getAbsolutePath())) {
-                _history.remove(f);
+    private void updateHistory(Editor editor) {
+        for (Editor e : _history) {
+            if (e.getFile().getAbsolutePath().equals(editor.getFile().getAbsolutePath())) {
+                _history.remove(e);
                 break;
             }
         }
-        _history.add(newFile);
+        _history.add(editor);
+    }
+
+    private JPanel createEditorArea(Editor editor) {
+        JPanel editorArea = new JPanel();
+        editorArea.add(editor.getLabel());
+        editorArea.add(editor);
+        editorArea.setPreferredSize(new Dimension(900, 800));
+        editorArea.setLayout(new BoxLayout(editorArea, BoxLayout.X_AXIS));
+        return editorArea;
     }
 
     /** FileChooser for fileManager. */
     private JFileChooser _filechooser;
 
     /** Restore all the files have been loaded chronologically. */
-    private Deque<File> _history;
+    private Deque<Editor> _history;
 
     /** GUI on display. */
     private GUI _gui;
