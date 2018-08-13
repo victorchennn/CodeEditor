@@ -183,7 +183,7 @@ class FileManager {
      * textArea. */
     private JPanel createEditorArea(Editor editor) {
         JPanel editorArea = new JPanel();
-        editorArea.add(editor.getLabel());
+        editorArea.add(editor.getIndexBar());
         editorArea.add(editor);
         editorArea.setLayout(new BoxLayout(editorArea, BoxLayout.X_AXIS));
         return editorArea;

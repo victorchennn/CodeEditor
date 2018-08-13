@@ -11,13 +11,15 @@ import java.io.*;
  *  @author Victor Chen
  */
 class Editor extends JTextArea {
+
+    
     Editor(File file, boolean newfile, GUI gui) {
         _file = file;
         _newfile = newfile;
         writeFile(file);
         _inittext = getText();
         _initrows = getLineCount();
-        _label = createIndexBar();
+        _indexbar = createIndexBar();
         _gui = gui;
         _gui.getStatusbar().setText(file.getName() + "   0:0   ");
         getDocument().addDocumentListener(new DocumentListener() {
@@ -47,22 +49,27 @@ class Editor extends JTextArea {
         });
     }
 
-    JPanel getLabel() {
-        return _label;
+    /** Return indexBar. */
+    JPanel getIndexBar() {
+        return _indexbar;
     }
 
+    /** Return file in display. */
     File getFile() {
         return _file;
     }
 
+    /** Return true iff there are changes in text. */
     boolean ifChanged() {
         return _inittext!= null && !_inittext.equals(getText());
     }
 
+    /** Return file is new or nor. */
     boolean isNewFile() {
         return _newfile;
     }
 
+    /** Write the file content to editor in display. */
     private void writeFile(File file) {
         try {
             FileReader fr = new FileReader(file);
@@ -82,6 +89,7 @@ class Editor extends JTextArea {
         this.setCaretPosition(0);
     }
 
+    /** Create initial indexBar based on initial number of rows. */
     private JPanel createIndexBar() {
         JPanel label = new JPanel();
         label.setLayout(new BoxLayout(label, BoxLayout.Y_AXIS));
@@ -95,28 +103,35 @@ class Editor extends JTextArea {
         return label;
     }
 
+    /** Update indexBar each time if number of rows changes. */
     private void updateIndexBar() {
         int curlinecount = getLineCount();
         if (_initrows != curlinecount) {
             _initrows = curlinecount;
-            _label.removeAll();
-            _label.repaint();
+            _indexbar.removeAll();
+            _indexbar.repaint();
             for (int i = 1; i <= _initrows; i++) {
                 JLabel index = new JLabel(Integer.toString(i));
-                _label.add(index);
+                _indexbar.add(index);
             }
         }
     }
 
+    /** GUI in display. */
     private GUI _gui;
 
-    private JPanel _label;
+    /** Column index. */
+    private JPanel _indexbar;
 
+    /** Store initial number of rows. */
     private int _initrows;
 
+    /** Store initial text. */
     private String _inittext;
 
+    /** File in display. */
     private File _file;
 
+    /** File is newly created or not. */
     private boolean _newfile;
 }

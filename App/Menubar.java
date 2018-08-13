@@ -27,6 +27,20 @@ class Menubar {
         return _manager;
     }
 
+    /** Create history JMenuItems in REOPEN JMenu. */
+    void createHistory() {
+        _reopen.setEnabled(true);
+        _reopenlast.setEnabled(true);
+        _reopen.removeAll();
+        createMenuItem(CLEAR_H, _reopen, e -> _manager.clearHistory());
+        _reopen.addSeparator();
+        for (Editor ed : _manager.getHistory()) {
+            JMenuItem newItem = new JMenuItem(ed.getFile().getAbsolutePath());
+            newItem.addActionListener(e -> _manager.open(ed.getFile()));
+            _reopen.add(newItem, 2);
+        }
+    }
+
     /** Create Signature Menu. */
     private void createSignMenu() {
         JMenu menu = createMenu(SIGN, _menuBar);
@@ -52,27 +66,30 @@ class Menubar {
         createMenuItem(SAVE_ALL, menu, e -> _manager.saveAll());
         menu.addSeparator();
         createMenuItem(CLOSE_TAB, menu, KeyEvent.VK_W, false, e -> _manager.closeFile());
-//        createMenuItem(CLOSE_WINDOW, menu, KeyEvent.VK_W, true, e -> );
         createMenuItem(CLOSE_ALL, menu, e -> _manager.closeAll());
-    }
-
-    /** Create history JMenuItems in REOPEN JMenu. */
-    void createHistory() {
-        _reopen.setEnabled(true);
-        _reopenlast.setEnabled(true);
-        _reopen.removeAll();
-        createMenuItem(CLEAR_H, _reopen, e -> _manager.clearHistory());
-        _reopen.addSeparator();
-        for (Editor ed : _manager.getHistory()) {
-            JMenuItem newItem = new JMenuItem(ed.getFile().getAbsolutePath());
-            newItem.addActionListener(e -> _manager.open(ed.getFile()));
-            _reopen.add(newItem, 2);
-        }
     }
 
     /** Create Edit Menu. */
     private void createEditMenu() {
         JMenu menu = createMenu(EDIT, _menuBar);
+        createMenuItem(UNDO, menu, KeyEvent.VK_Z, false, e -> {});
+        menu.addSeparator();
+        createMenuItem(CUT, menu, KeyEvent.VK_X, false, e -> {});
+        createMenuItem(COPY, menu, KeyEvent.VK_C, false, e -> {});
+        createMenuItem(COPY_PATH, menu, KeyEvent.VK_C, true, e -> {});
+        createMenuItem(COPY_REF, menu, e -> {});
+        createMenuItem(PASTE, menu, KeyEvent.VK_V, false, e -> {});
+        JMenuItem delete = createMenuItem(DELETE, menu, e -> {});
+        delete.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0));
+        menu.addSeparator();
+        createMenuItem(FIND, menu, KeyEvent.VK_F, false, e -> {});
+        createMenuItem(FIND_NEXT, menu, KeyEvent.VK_F, true, e -> {});
+        createMenuItem(REPLACE, menu, KeyEvent.VK_R, false, e -> {});
+        createMenuItem(GOTOLINE, menu, KeyEvent.VK_G, false, e -> {});
+        menu.addSeparator();
+        createMenuItem(SELECT_ALL, menu, KeyEvent.VK_A, false, e -> {});
+        JMenuItem time = createMenuItem(TD, menu, e -> {});
+        time.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0));
     }
 
     /** Create View Menu. */
@@ -99,9 +116,9 @@ class Menubar {
     }
 
     /** Add a menuitem without accelerator to MENU. */
-    private void createMenuItem(String command, JMenu toMenu,
+    private JMenuItem createMenuItem(String command, JMenu toMenu,
                                 ActionListener actListener) {
-        createMenuItem(command, toMenu, 0, false, actListener);
+        return createMenuItem(command, toMenu, 0, false, actListener);
     }
 
     /** Add a menuitem to MENU. If it has an accelerator key, use ctrl or
@@ -137,8 +154,12 @@ class Menubar {
             NEW_WINDOW = "New Window", NEW_FILE = "New File", OPEN = "Open",
             REOPEN = "Reopen", REOPEN_LAST = "Reopen Last Item", SAVE = "Save",
             SAVE_AS = "Save As...", SAVE_ALL = "Save All", CLOSE_TAB = "Close Tab",
-            CLOSE_ALL = "Close All", CLOSE_WINDOW = "Close Window",
-            CLEAR_H = "Clear History";
+            CLOSE_ALL = "Close All", CLEAR_H = "Clear History",
+
+            UNDO = "Undo", CUT = "Cut", COPY = "Copy", COPY_PATH = "Copy Path",
+            COPY_REF = "Copy Reference", PASTE = "Paste", DELETE = "Delete",
+            FIND = "Find", FIND_NEXT = "Find Next", REPLACE = "Replace",
+            GOTOLINE = "Go to Line", SELECT_ALL = "Select All", TD = "Time & Date";
 
     /** Menu REOPEN_LAST. */
     private JMenuItem _reopenlast;
