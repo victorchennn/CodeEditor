@@ -2,7 +2,6 @@ package App;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import java.awt.*;
 import java.io.*;
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -10,9 +9,9 @@ import java.util.Deque;
 /** All things to do with file commands.
  *  @author Victor Chen
  */
-class FileManagement {
+class FileManager {
 
-    FileManagement(GUI gui) {
+    FileManager(GUI gui) {
         _gui = gui;
         _history = new ArrayDeque<>();
         _filechooser = new JFileChooser();
@@ -31,7 +30,7 @@ class FileManagement {
         JTabbedPane textarea = _gui.getTextArea();
         String entertitle = "<html>Enter the name for the new file.<br><br></html>";
         String title = JOptionPane.showInputDialog(null, entertitle, "Untitled");
-        Editor newone = new Editor(new File(title), true);
+        Editor newone = new Editor(new File(title), true, _gui);
         JPanel editorArea = createEditorArea(newone);
         textarea.addTab(title, new JScrollPane(editorArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER));
@@ -55,7 +54,7 @@ class FileManagement {
     /** Open file FILE, add it to editor. */
     void open(File file) {
         String title = file.getName();
-        Editor editor = new Editor(file, false);
+        Editor editor = new Editor(file, false, _gui);
         JPanel editorArea = createEditorArea(editor);
         _gui.getTextArea().addTab(title, new JScrollPane(editorArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER));
@@ -66,7 +65,7 @@ class FileManagement {
     /** Save the file currently working on. Directly modify the file if
      * originally has one, or create a new file. */
     void saveFile() {
-        Editor currentEditor = (Editor) _gui.getTextArea().getSelectedComponent();
+        Editor currentEditor = getSelectedEditor();
         if (currentEditor != null && currentEditor.ifChanged()) {
             if (currentEditor.isNewFile()) {
                 saveAsFile();
@@ -79,9 +78,10 @@ class FileManagement {
     /** Create a new file and save it to the current directory. Show alert
      * when there is a file with same path already exists. */
     void saveAsFile() {
-        Editor currentEditor = (Editor) _gui.getTextArea().getSelectedComponent();
+        Editor currentEditor = getSelectedEditor();
         if (currentEditor != null) {
-            _filechooser.setSelectedFile(new File("Untitled"));
+            String title = currentEditor.getFile().getName();
+            _filechooser.setSelectedFile(new File(title));
             int value = _filechooser.showSaveDialog(null);
             if (value == JFileChooser.APPROVE_OPTION) {
                 File file = _filechooser.getSelectedFile();
@@ -95,6 +95,8 @@ class FileManagement {
                             == JFileChooser.APPROVE_OPTION) {
                         save(currentEditor);
                     }
+                } else {
+                    save(currentEditor);
                 }
             }
         }
@@ -111,7 +113,6 @@ class FileManagement {
     private void save(Editor editor) {
         try {
             FileWriter fileWriter = new FileWriter(editor.getFile());
-            System.out.println(editor.getText());
             fileWriter.write(editor.getText());
             fileWriter.close();
         } catch (IOException e) {
@@ -121,11 +122,12 @@ class FileManagement {
 
     /** Close the currently working on file, choose to save it or not. */
     void closeFile() {
-        Editor currentEditor = (Editor) _gui.getTextArea().getSelectedComponent();
+        Editor currentEditor = getSelectedEditor();
         if (currentEditor.ifChanged()) {
             String alert = "<html><b>'" + currentEditor.getFile().getName() +
                     "' has changes, do you want to save them?</b><br><br>" +
-                    "Your changes will be lost if you close this item without saving.<html>";
+                    "Your changes will be lost if you close this item without " +
+                    "saving.<html>";
             int value = JOptionPane.showConfirmDialog(null, alert);
             if (value == JOptionPane.YES_OPTION) {
                 saveFile();
@@ -155,11 +157,21 @@ class FileManagement {
         _history.clear();
     }
 
+    /** Get selected editor, return null if does not have. */
+    private Editor getSelectedEditor() {
+        JScrollPane selpane = (JScrollPane)  _gui.getTextArea().getSelectedComponent();
+        if (selpane == null) {
+            return null;
+        }
+        JPanel selpanel = (JPanel) selpane.getViewport().getView();
+        return (Editor) selpanel.getComponent(1);
+    }
 
     /** Update the history array, put newest file at last position. */
     private void updateHistory(Editor editor) {
         for (Editor e : _history) {
-            if (e.getFile().getAbsolutePath().equals(editor.getFile().getAbsolutePath())) {
+            if (e.getFile().getAbsolutePath().equals
+                    (editor.getFile().getAbsolutePath())) {
                 _history.remove(e);
                 break;
             }
@@ -167,11 +179,12 @@ class FileManagement {
         _history.add(editor);
     }
 
+    /** Create an editor panel, including a labelBar with column index and a
+     * textArea. */
     private JPanel createEditorArea(Editor editor) {
         JPanel editorArea = new JPanel();
         editorArea.add(editor.getLabel());
         editorArea.add(editor);
-        editorArea.setPreferredSize(new Dimension(900, 800));
         editorArea.setLayout(new BoxLayout(editorArea, BoxLayout.X_AXIS));
         return editorArea;
     }

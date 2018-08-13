@@ -3,7 +3,6 @@ package App;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
 
 /**
  *  @author Victor Chen
@@ -12,7 +11,7 @@ class Menubar {
 
     Menubar(GUI gui) {
         _menuBar = new JMenuBar();
-        _manager = new FileManagement(gui);
+        _manager = new FileManager(gui);
     }
 
     JMenuBar createMenuBar() {
@@ -24,7 +23,7 @@ class Menubar {
         return _menuBar;
     }
 
-    FileManagement getManager() {
+    FileManager getManager() {
         return _manager;
     }
 
@@ -151,5 +150,5 @@ class Menubar {
     private JMenuBar _menuBar;
 
     /** File Commends Manager . */
-    private FileManagement _manager;
+    private FileManager _manager;
 }

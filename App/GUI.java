@@ -4,10 +4,7 @@ import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.io.File;
 import java.util.Arrays;
 
@@ -30,26 +27,34 @@ public class GUI {
         _container.add(createLeftPanel());
         _container.add(createRightPanel());
 
-        _frame.add(_container);
+        _frame.add(_container, BorderLayout.CENTER);
+        _statusbar = new JLabel(" ", JLabel.RIGHT);
+        _frame.add(_statusbar, BorderLayout.SOUTH);
         _menubar = new Menubar(this);
         _frame.setJMenuBar(_menubar.createMenuBar());
 
         _frame.setVisible(true);
         _frame.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosed(WindowEvent e) {
+            public void windowClosing(WindowEvent we) {
                 getMenubar().getManager().closeAll();
                 _frame.dispatchEvent(new WindowEvent(_frame, WindowEvent.WINDOW_CLOSED));
             }
         });
     }
 
+    /** Return the TextArea in GUI. */
     JTabbedPane getTextArea() {
         return _textarea;
     }
 
+    /** Return the Menubar in GUI. */
     Menubar getMenubar() {
         return _menubar;
+    }
+
+    /** Return the Statusbar in GUI. */
+    JLabel getStatusbar() {
+        return _statusbar;
     }
 
     private JPanel createLeftPanel() {
@@ -126,18 +131,10 @@ public class GUI {
         }
     }
 
-    void createNumberBar(int x) {
-        _label.removeAll();
-        _label.add(Box.createRigidArea(new Dimension(0, 33)));
-        for (int i = 0; i <= x; i++) {
-            JLabel index = new JLabel(Integer.toString(i));
-            index.setAlignmentX(JLabel.RIGHT_ALIGNMENT);
-            _label.add(index);
-        }
-    }
+    /** Status bar. */
+    private JLabel _statusbar;
 
-    private JPanel _label;
-
+    /** Menu bar. */
     private Menubar _menubar;
 
     /** Typing area. */
