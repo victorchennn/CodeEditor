@@ -36,8 +36,11 @@ public class GUI {
         _frame.setVisible(true);
         _frame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent we) {
-                getMenubar().getManager().closeAll();
-                _frame.dispatchEvent(new WindowEvent(_frame, WindowEvent.WINDOW_CLOSED));
+                if (getMenubar().getManager().closeAll() == 1){
+                    _frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                } else {
+                    _frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                }
             }
         });
     }
@@ -96,7 +99,7 @@ public class GUI {
     private JPanel createRightPanel() {
         JPanel panel = new JPanel();
         panel.setPreferredSize(new Dimension(900, 800));
-        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         _textarea = new JTabbedPane();
         panel.add(_textarea);
         return panel;

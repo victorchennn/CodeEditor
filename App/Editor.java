@@ -12,7 +12,7 @@ import java.io.*;
  */
 class Editor extends JTextArea {
 
-    
+
     Editor(File file, boolean newfile, GUI gui) {
         _file = file;
         _newfile = newfile;

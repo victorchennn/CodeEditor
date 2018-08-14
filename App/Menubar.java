@@ -50,7 +50,7 @@ class Menubar {
         createMenuItem(QUIT, menu, KeyEvent.VK_Q, false, e -> System.exit(0));
     }
 
-    /** Create File Menu. */
+    /** Create File Menu, including all the file commands. */
     private void createFileMenu() {
         JMenu menu = createMenu(FILE, _menuBar);
         createMenuItem(NEW_WINDOW, menu, KeyEvent.VK_N, true, e -> new GUI());
@@ -69,26 +69,26 @@ class Menubar {
         createMenuItem(CLOSE_ALL, menu, e -> _manager.closeAll());
     }
 
-    /** Create Edit Menu. */
+    /** Create Edit Menu, including all the edit file commands. */
     private void createEditMenu() {
         JMenu menu = createMenu(EDIT, _menuBar);
         createMenuItem(UNDO, menu, KeyEvent.VK_Z, false, e -> {});
         menu.addSeparator();
-        createMenuItem(CUT, menu, KeyEvent.VK_X, false, e -> {});
-        createMenuItem(COPY, menu, KeyEvent.VK_C, false, e -> {});
-        createMenuItem(COPY_PATH, menu, KeyEvent.VK_C, true, e -> {});
-        createMenuItem(COPY_REF, menu, e -> {});
-        createMenuItem(PASTE, menu, KeyEvent.VK_V, false, e -> {});
-        JMenuItem delete = createMenuItem(DELETE, menu, e -> {});
+        createMenuItem(CUT, menu, KeyEvent.VK_X, false, e -> _manager.simpleEditCommand(1));
+        createMenuItem(COPY, menu, KeyEvent.VK_C, false, e -> _manager.simpleEditCommand(2));
+        createMenuItem(COPY_PATH, menu, KeyEvent.VK_C, true, e -> _manager.copyInfo(true));
+        createMenuItem(COPY_REF, menu, e -> _manager.copyInfo(false));
+        createMenuItem(PASTE, menu, KeyEvent.VK_V, false, e -> _manager.simpleEditCommand(3));
+        JMenuItem delete = createMenuItem(DELETE, menu, e -> _manager.simpleEditCommand(4));
         delete.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0));
         menu.addSeparator();
         createMenuItem(FIND, menu, KeyEvent.VK_F, false, e -> {});
         createMenuItem(FIND_NEXT, menu, KeyEvent.VK_F, true, e -> {});
         createMenuItem(REPLACE, menu, KeyEvent.VK_R, false, e -> {});
-        createMenuItem(GOTOLINE, menu, KeyEvent.VK_G, false, e -> {});
+        createMenuItem(GOTOLINE, menu, KeyEvent.VK_G, false, e -> _manager.goTo());
         menu.addSeparator();
-        createMenuItem(SELECT_ALL, menu, KeyEvent.VK_A, false, e -> {});
-        JMenuItem time = createMenuItem(TD, menu, e -> {});
+        createMenuItem(SELECT_ALL, menu, KeyEvent.VK_A, false, e -> _manager.simpleEditCommand(5));
+        JMenuItem time = createMenuItem(TD, menu, e -> _manager.simpleEditCommand(6));
         time.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0));
     }
 
