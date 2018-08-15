@@ -29,15 +29,20 @@ class Menubar {
 
     /** Create history JMenuItems in REOPEN JMenu. */
     void createHistory() {
-        _reopen.setEnabled(true);
-        _reopenlast.setEnabled(true);
-        _reopen.removeAll();
-        createMenuItem(CLEAR_H, _reopen, e -> _manager.clearHistory());
-        _reopen.addSeparator();
-        for (Editor ed : _manager.getHistory()) {
-            JMenuItem newItem = new JMenuItem(ed.getFile().getAbsolutePath());
-            newItem.addActionListener(e -> _manager.open(ed.getFile()));
-            _reopen.add(newItem, 2);
+        if (_manager.getHistory().size() == 0) {
+            _reopen.setEnabled(false);
+            _reopenlast.setEnabled(false);
+        } else {
+            _reopen.setEnabled(true);
+            _reopenlast.setEnabled(true);
+            _reopen.removeAll();
+            createMenuItem(CLEAR_H, _reopen, e -> _manager.clearHistory());
+            _reopen.addSeparator();
+            for (Editor ed : _manager.getHistory()) {
+                JMenuItem newItem = new JMenuItem(ed.getFile().getAbsolutePath());
+                newItem.addActionListener(e -> _manager.open(ed.getFile()));
+                _reopen.add(newItem, 2);
+            }
         }
     }
 
@@ -144,7 +149,7 @@ class Menubar {
     private static final Font
             SIGN_FONT = new Font("LucidaGrande", Font.BOLD, 14);
 
-    /** Commends. */
+    /** Commands. */
     private static final String
             SIGN = "Victor", FILE = "File", EDIT = "Edit", VIEW = "View",
             HELP = "Help",

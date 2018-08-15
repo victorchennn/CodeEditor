@@ -70,7 +70,8 @@ class FileManager {
     /** Save the file currently working on. Directly modify the file if
      * originally has one, or create a new file. */
     void saveFile() {
-        Editor currentEditor = getSelectedEditor();
+        JScrollPane pane = (JScrollPane)  _gui.getTextArea().getSelectedComponent();
+        Editor currentEditor = getSelectedEditor(pane);
         if (currentEditor != null && currentEditor.ifChanged()) {
             if (currentEditor.isNewFile()) {
                 saveAsFile();
@@ -83,7 +84,8 @@ class FileManager {
     /** Create a new file and save it to the current directory. Show alert
      * when there is a file with same path already exists. */
     void saveAsFile() {
-        Editor currentEditor = getSelectedEditor();
+        JScrollPane pane = (JScrollPane)  _gui.getTextArea().getSelectedComponent();
+        Editor currentEditor = getSelectedEditor(pane);
         if (currentEditor != null) {
             String title = currentEditor.getFile().getName();
             _filechooser.setSelectedFile(new File(title));
@@ -127,7 +129,8 @@ class FileManager {
 
     /** Close the currently working on file, choose to save it or not. */
     int closeFile() {
-        Editor currentEditor = getSelectedEditor();
+        JScrollPane pane = (JScrollPane)  _gui.getTextArea().getSelectedComponent();
+        Editor currentEditor = getSelectedEditor(pane);
         if (currentEditor!= null) {
             if (currentEditor.ifChanged()) {
                 String alert = "<html><b>'" + currentEditor.getFile().getName() +
@@ -137,14 +140,14 @@ class FileManager {
                 int value = JOptionPane.showConfirmDialog(null, alert);
                 if (value == JOptionPane.YES_OPTION) {
                     saveFile();
-                    _gui.getTextArea().remove(currentEditor);
+                    _gui.getTextArea().remove(pane);
                 } else if (value == JOptionPane.NO_OPTION) {
-                    _gui.getTextArea().remove(currentEditor);
+                    _gui.getTextArea().remove(pane);
                 } else {
                     return 0;
                 }
             } else {
-                _gui.getTextArea().remove(currentEditor);
+                _gui.getTextArea().remove(pane);
             }
         }
         return 1;
@@ -164,7 +167,8 @@ class FileManager {
     /** Do simple edit commands in current editor, including Cut, Copy, Paste,
      * Delete, SelectAll and insert timestamp. */
     void simpleEditCommand(int c) {
-        Editor currentEditor = getSelectedEditor();
+        JScrollPane pane = (JScrollPane)  _gui.getTextArea().getSelectedComponent();
+        Editor currentEditor = getSelectedEditor(pane);
         if (currentEditor != null) {
             switch (c) {
                 case 1: currentEditor.cut(); break;
@@ -181,7 +185,8 @@ class FileManager {
     /** Copy file information to system clipboard, either file path
      * or cursor position (row, col). */
     void copyInfo(boolean ifpath) {
-        Editor currentEditor = getSelectedEditor();
+        JScrollPane pane = (JScrollPane)  _gui.getTextArea().getSelectedComponent();
+        Editor currentEditor = getSelectedEditor(pane);
         if (currentEditor != null) {
             Clipboard cb = Toolkit.getDefaultToolkit().getSystemClipboard();
             StringSelection ss;
@@ -198,7 +203,8 @@ class FileManager {
 
     /** Go to a row or position. */
     void goTo() {
-        Editor currentEditor = getSelectedEditor();
+        JScrollPane pane = (JScrollPane)  _gui.getTextArea().getSelectedComponent();
+        Editor currentEditor = getSelectedEditor(pane);
         if (currentEditor != null) {
             try {
                 int initcol = currentEditor.getLineOfOffset
@@ -237,15 +243,15 @@ class FileManager {
     /** Clear the history queue. */
     void clearHistory() {
         _history.clear();
+        _gui.getMenubar().createHistory();
     }
 
     /** Get selected editor, return null if does not have. */
-    private Editor getSelectedEditor() {
-        JScrollPane selpane = (JScrollPane)  _gui.getTextArea().getSelectedComponent();
-        if (selpane == null) {
+    private Editor getSelectedEditor(JScrollPane pane) {
+        if (pane == null) {
             return null;
         }
-        JPanel selpanel = (JPanel) selpane.getViewport().getView();
+        JPanel selpanel = (JPanel) pane.getViewport().getView();
         return (Editor) selpanel.getComponent(1);
     }
 
