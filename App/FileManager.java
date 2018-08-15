@@ -35,11 +35,13 @@ class FileManager {
         JTabbedPane textarea = _gui.getTextArea();
         String entertitle = "<html>Enter the name for the new file.<br><br></html>";
         String title = JOptionPane.showInputDialog(null, entertitle, "Untitled");
-        Editor newone = new Editor(new File(title), true, _gui);
-        JPanel editorArea = createEditorArea(newone);
-        textarea.addTab(title, new JScrollPane(editorArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER));
-        _history.add(newone);
+        if (title != null) {
+            Editor newone = new Editor(new File(title), true, _gui);
+            JPanel editorArea = createEditorArea(newone);
+            textarea.addTab(title, new JScrollPane(editorArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                    JScrollPane.HORIZONTAL_SCROLLBAR_NEVER));
+            _history.add(newone);
+        }
     }
 
     /** Open the user selected file. */
@@ -198,6 +200,18 @@ class FileManager {
                 ss = new StringSelection(ref);
             }
             cb.setContents(ss, ss);
+        }
+    }
+
+    void find() {
+        JScrollPane pane = (JScrollPane)  _gui.getTextArea().getSelectedComponent();
+        Editor currentEditor = getSelectedEditor(pane);
+        if (currentEditor != null) {
+            Search fp = new Search(currentEditor);
+            JPanel right = _gui.getRightPanel();
+            right.add(fp.getSearch());
+            right.revalidate();
+            right.repaint();
         }
     }
 

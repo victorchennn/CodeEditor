@@ -1,1 +1,28 @@
-# text
+# Test Find && Replace
+
+/** Tree structure of files in current directory. Sort files by name in
+ * ascending order, put directories at front. */
+private void createDicTree(File path, DefaultMutableTreeNode cur) {
+    String[] sorted_files = path.list();
+    if (sorted_files != null) {
+        Arrays.sort(sorted_files, (o1, o2) -> {
+            File file1 = new File(path, o1);
+            File file2 = new File(path, o2);
+            if (file1.isDirectory() && !file2.isDirectory()) {
+                return -1;
+            } else if (!file1.isDirectory() && file2.isDirectory()) {
+                return 1;
+            } else {
+                return o1.compareTo(o2);
+            }
+        });
+        for(String filename : sorted_files) {
+            DefaultMutableTreeNode node = new DefaultMutableTreeNode(filename);
+            cur.add(node);
+            File file = new File(path, filename);
+            if (file.isDirectory()) {
+                createDicTree(file, node);
+            }
+        }
+    }
+}

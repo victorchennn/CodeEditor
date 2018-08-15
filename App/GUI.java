@@ -60,6 +60,11 @@ public class GUI {
         return _statusbar;
     }
 
+    /** Return Right panel. */
+    JPanel getRightPanel() {
+        return _right;
+    }
+
     private JPanel createLeftPanel() {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setPreferredSize(new Dimension(300, 800));
@@ -97,18 +102,16 @@ public class GUI {
     }
 
     private JPanel createRightPanel() {
-        JPanel panel = new JPanel();
-        panel.setPreferredSize(new Dimension(900, 800));
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        _right = new JPanel();
+        _right.setPreferredSize(new Dimension(900, 800));
+        _right.setLayout(new BoxLayout(_right, BoxLayout.Y_AXIS));
         _textarea = new JTabbedPane();
-        panel.add(_textarea);
-        return panel;
+        _right.add(_textarea);
+        return _right;
     }
 
-    /**
-     * Tree structure of files in current directory. Sort files by name in
-     * ascending order, put directories at front.
-     */
+    /** Tree structure of files in current directory. Sort files by name in
+     * ascending order, put directories at front. */
     private void createDicTree(File path, DefaultMutableTreeNode cur) {
         String[] sorted_files = path.list();
         if (sorted_files != null) {
@@ -133,6 +136,9 @@ public class GUI {
             }
         }
     }
+
+    /** Right Panel. */
+    private JPanel _right;
 
     /** Status bar. */
     private JLabel _statusbar;

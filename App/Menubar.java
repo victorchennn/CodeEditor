@@ -87,7 +87,7 @@ class Menubar {
         JMenuItem delete = createMenuItem(DELETE, menu, e -> _manager.simpleEditCommand(4));
         delete.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0));
         menu.addSeparator();
-        createMenuItem(FIND, menu, KeyEvent.VK_F, false, e -> {});
+        createMenuItem(FIND, menu, KeyEvent.VK_F, false, e -> _manager.find());
         createMenuItem(FIND_NEXT, menu, KeyEvent.VK_F, true, e -> {});
         createMenuItem(REPLACE, menu, KeyEvent.VK_R, false, e -> {});
         createMenuItem(GOTOLINE, menu, KeyEvent.VK_G, false, e -> _manager.goTo());
