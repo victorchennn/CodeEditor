@@ -87,9 +87,8 @@ class Menubar {
         JMenuItem delete = createMenuItem(DELETE, menu, e -> _manager.simpleEditCommand(4));
         delete.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0));
         menu.addSeparator();
-        createMenuItem(FIND, menu, KeyEvent.VK_F, false, e -> _manager.find());
-        createMenuItem(FIND_NEXT, menu, KeyEvent.VK_F, true, e -> {});
-        createMenuItem(REPLACE, menu, KeyEvent.VK_R, false, e -> {});
+        createMenuItem(FIND, menu, KeyEvent.VK_F, false, e -> _manager.search());
+        createMenuItem(REPLACE, menu, KeyEvent.VK_R, false, e -> _manager.search());
         createMenuItem(GOTOLINE, menu, KeyEvent.VK_G, false, e -> _manager.goTo());
         menu.addSeparator();
         createMenuItem(SELECT_ALL, menu, KeyEvent.VK_A, false, e -> _manager.simpleEditCommand(5));
@@ -163,8 +162,8 @@ class Menubar {
 
             UNDO = "Undo", CUT = "Cut", COPY = "Copy", COPY_PATH = "Copy Path",
             COPY_REF = "Copy Reference", PASTE = "Paste", DELETE = "Delete",
-            FIND = "Find", FIND_NEXT = "Find Next", REPLACE = "Replace",
-            GOTOLINE = "Go to Line", SELECT_ALL = "Select All", TD = "Time & Date";
+            FIND = "Find", REPLACE = "Replace", GOTOLINE = "Go to Line",
+            SELECT_ALL = "Select All", TD = "Time & Date";
 
     /** Menu REOPEN_LAST. */
     private JMenuItem _reopenlast;

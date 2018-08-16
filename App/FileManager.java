@@ -203,7 +203,8 @@ class FileManager {
         }
     }
 
-    void find() {
+    /** Evoke the search panel, used for find and replace commands. */
+    void search() {
         JScrollPane pane = (JScrollPane)  _gui.getTextArea().getSelectedComponent();
         Editor currentEditor = getSelectedEditor(pane);
         if (currentEditor != null) {
