@@ -6,6 +6,8 @@ import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.undo.UndoManager;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.*;
 
 /**
@@ -75,7 +77,7 @@ class Editor extends JTextArea {
         return _newfile;
     }
 
-    /** Write the file content to editor in display. */
+    /** Write file content to editor in display. */
     private void writeFile(File file) {
         try {
             FileReader fr = new FileReader(file);
@@ -97,17 +99,14 @@ class Editor extends JTextArea {
 
     /** Create initial indexBar based on initial number of rows. */
     private JPanel createIndexBar() {
-        JPanel label = new JPanel();
-        label.setLayout(new BoxLayout(label, BoxLayout.Y_AXIS));
-        label.setBackground(Color.WHITE);
-        label.setPreferredSize(new Dimension(30, 100));
-        label.setMaximumSize(new Dimension(30, 10000));
-        for (int i = 1; i <= getLineCount(); i++) {
-            JLabel index = new JLabel(Integer.toString(i));
-            label.add(index);
-        }
-        label.setBackground(new Color(248, 245, 231));
-        return label;
+        _indexbar = new JPanel();
+        _indexbar.setLayout(new BoxLayout(_indexbar, BoxLayout.Y_AXIS));
+        _indexbar.setBackground(Color.WHITE);
+        _indexbar.setPreferredSize(new Dimension(30, 800));
+        _indexbar.setMaximumSize(new Dimension(30, 10000));
+        createIndex(getLineCount());
+        _indexbar.setBackground(BAR_BACKGROUND);
+        return _indexbar;
     }
 
     /** Update indexBar each time if number of rows changes. */
@@ -118,12 +117,46 @@ class Editor extends JTextArea {
             _indexbar.removeAll();
             _indexbar.revalidate();
             _indexbar.repaint();
-            for (int i = 1; i <= _initrows; i++) {
-                JLabel index = new JLabel(Integer.toString(i));
-                _indexbar.add(index);
-            }
+            createIndex(_initrows);
         }
     }
+
+    /** Use a label to represent each line in indexBar. When clicking the label,
+     * turn the label of that line to green and select all the text at that line. */
+    private void createIndex(int linecount) {
+        for (int i = 1; i <= linecount; i++) {
+            JLabel index = new JLabel(Integer.toString(i));
+            index.setMaximumSize(new Dimension(30, 16));
+            index.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    try {
+                        int line = index.getLocation().y / index.getSize().height;
+                        if (!index.isOpaque()) {
+                            index.setOpaque(true);
+                            index.setBackground(HIGHLIGHT);
+                            setSelectionStart(getLineStartOffset(line));
+                            setSelectionEnd(getLineEndOffset(line));
+                        } else {
+                            index.setOpaque(false);
+                            index.setBackground(ORIGINAL);
+                            setCaretPosition(getLineStartOffset(line));
+                        }
+                    } catch (BadLocationException er) {
+                        /* Impossible */
+                    }
+
+                }
+            });
+            _indexbar.add(index);
+        }
+    }
+
+    /** Colors of highlighted line and indexBar background. */
+    private static final Color
+        HIGHLIGHT = new Color(201, 222, 193),
+        BAR_BACKGROUND = new Color(248, 245, 231),
+        ORIGINAL = new Color(238, 238, 238);
 
     /** Undo manager. */
     private UndoManager _undo = new UndoManager();
@@ -131,7 +164,7 @@ class Editor extends JTextArea {
     /** GUI in display. */
     private GUI _gui;
 
-    /** Column index. */
+    /** Index of row. */
     private JPanel _indexbar;
 
     /** Store initial number of rows. */
