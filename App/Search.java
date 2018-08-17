@@ -8,6 +8,8 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 
+import static java.awt.Color.*;
+
 /** All the commands about searching, including find, findAll,
  * replace and replaceAll with optional search options like
  * case match, if in selected text and next or previous occurrence.
@@ -70,21 +72,20 @@ class Search{
             if (i >= 0) {
                 _editor.setSelectionStart(i);
                 _editor.setSelectionEnd(i + _find.getText().length());
-                _editor.setSelectedTextColor(Color.YELLOW);
+                _editor.setSelectedTextColor(YELLOW);
                 start = _editor.getSelectionEnd();
                 end = _editor.getSelectionStart() - 1;
                 int[] occur = getOccurrence(tofind, text, _matchcase, i);
-                _results.setForeground(Color.BLACK);
+                _results.setForeground(BLACK);
                 if (occur[0] == 1) {
-                    _results.setText(" 1 result found for '" + tofind + "'");
+                    _results.setText(String.format(" 1 result found for '%s'", tofind));
                 } else {
-                    _results.setText(" "  + Integer.toString(occur[0]) +
-                            " results found for '" + tofind + "', " +
-                            Integer.toString(occur[1]) + " of " + Integer.toString(occur[0]));
+                    _results.setText(String.format(" %d results found for '%s', %d of %d",
+                            occur[0], tofind, occur[1], occur[0]));
                 }
             } else if (i == -2) {
-                _results.setForeground(Color.RED);
-                _results.setText(" No results found for '" + _find.getText() + "'");
+                _results.setForeground(RED);
+                _results.setText(String.format(" No results found for '%s'", _find.getText()));
             } else {
                 start = 0;
                 end = _editor.getText().length();
@@ -168,7 +169,7 @@ class Search{
                     highlighter.addHighlight(i, i + tofind.length(), painter);
                 }
             } catch (BadLocationException e) {
-                /**...*/
+                /* ... */
             }
         }
     }
@@ -198,7 +199,7 @@ class Search{
                     highlighter.addHighlight(i, i + newone.length(), painter);
                 }
             } catch (BadLocationException e) {
-                /**...*/
+                /* ..*/
             }
         }
     }
@@ -316,9 +317,9 @@ class Search{
 
 
     /** Set default highlight painter to light grey with alpha 140. */
-    private Highlighter.HighlightPainter painter =
+    private static final Highlighter.HighlightPainter painter =
             new DefaultHighlighter.DefaultHighlightPainter
-                    (new Color(192, 192, 192, 140));
+                    (new Color(164, 205, 255));
 
     /** Record index and occurrences of substring in the text, divided by if
      * choose to match case, key->matchcase->index->order. */

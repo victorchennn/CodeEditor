@@ -42,6 +42,7 @@ class FileManager {
             textarea.addTab(title, new JScrollPane(editorArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                     JScrollPane.HORIZONTAL_SCROLLBAR_NEVER));
             _history.add(newone);
+            newone.requestFocus();
         }
     }
 
@@ -68,6 +69,7 @@ class FileManager {
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER));
         updateHistory(editor);
         _gui.getMenubar().createHistory();
+        editor.requestFocus();
     }
 
     /** Save the file currently working on. Directly modify the file if
