@@ -12,12 +12,12 @@ import java.util.ArrayDeque;
 import java.util.Date;
 import java.util.Deque;
 
-/** All things to do with file commands.
+/** All things to do with Editor commands.
  *  @author Victor Chen
  */
-class FileManager {
+class Commands {
 
-    FileManager(GUI gui) {
+    Commands(GUI gui) {
         _gui = gui;
         _history = new ArrayDeque<>();
         _filechooser = new JFileChooser();

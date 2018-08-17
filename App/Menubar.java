@@ -16,9 +16,7 @@ class Menubar {
     /** Commands. */
     private static final String
             SIGN = "Victor", FILE = "File", EDIT = "Edit", VIEW = "View",
-            SEL = "Selection", HELP = "Help",
-
-            ABOUT = "About ...", QUIT = "Quit",
+            SEL = "Selection", HELP = "Help", ABOUT = "About ...", QUIT = "Quit",
 
             NEW_WINDOW = "New Window", NEW_FILE = "New File", OPEN = "Open",
             REOPEN = "Reopen", REOPEN_LAST = "Reopen Last Item", SAVE = "Save",
@@ -28,11 +26,21 @@ class Menubar {
             UNDO = "Undo", REDO = "Redo", CUT = "Cut", COPY = "Copy",
             COPY_PATH = "Copy Path", COPY_REF = "Copy Reference", PASTE = "Paste",
             DELETE = "Delete", FIND = "Find", REPLACE = "Replace",
-            GOTOLINE = "Go to Line", SELECT_ALL = "Select All", TD = "Time & Date";
+            GOTOLINE = "Go to Line", SELECT_ALL = "Select All", TD = "Time & Date",
+
+            SEL_ADD_ABOVE = "Add Selection Above", SEL_ADD_BELOW = "Add Selection Below",
+            SEL_TO_TOP = "Select to Top", SEL_TO_BOTTOM = "Select to Bottom",
+            SEL_LINE = "Select Line", SEL_WORD = "Select Word",
+            SEL_TO_BoW = "Select to Beginning of Word",
+            SEL_TO_BoL = "Select to Beginning of Line",
+            SEL_TO_EoW = "Select to End of Word",
+            SEL_TO_EoL = "Select to End of Line",
+            SEL_TO_FCoL = "Select to First Character of Line",
+            SEL_IB = "Select Inside Brackets";
 
     Menubar(GUI gui) {
         _menuBar = new JMenuBar();
-        _manager = new FileManager(gui);
+        _manager = new Commands(gui);
     }
 
     /** Create all the menus in menuBar. */
@@ -47,7 +55,7 @@ class Menubar {
     }
 
     /** Get file manager. */
-    FileManager getManager() {
+    Commands getManager() {
         return _manager;
     }
 
@@ -79,7 +87,7 @@ class Menubar {
         createMenuItem(QUIT, menu, KeyEvent.VK_Q, false, e -> System.exit(0));
     }
 
-    /** Create File Menu, including all the file commands. */
+    /** Create File Menu, including all the commands of file operation. */
     private void createFileMenu() {
         JMenu menu = createMenu(FILE, _menuBar);
         createMenuItem(NEW_WINDOW, menu, KeyEvent.VK_N, true, e -> new GUI());
@@ -98,7 +106,7 @@ class Menubar {
         createMenuItem(CLOSE_ALL, menu, e -> _manager.closeAll());
     }
 
-    /** Create Edit Menu, including all the edit file commands. */
+    /** Create Edit Menu, including all the commands of file editing. */
     private void createEditMenu() {
         JMenu menu = createMenu(EDIT, _menuBar);
         createMenuItem(UNDO, menu, KeyEvent.VK_Z, false, e -> _manager.undo(true));
@@ -126,9 +134,23 @@ class Menubar {
         JMenu menu = createMenu(VIEW, _menuBar);
     }
 
-    /** Create View Menu. */
+    /** Create Selection Menu, including all the commands of editor selection options. */
     private void createSelectionMenu() {
         JMenu menu = createMenu(SEL, _menuBar);
+        createMenuItem(SEL_ADD_ABOVE, menu, KeyEvent.VK_UP, false, null);
+        createMenuItem(SEL_ADD_BELOW, menu, KeyEvent.VK_DOWN, false, null);
+        menu.addSeparator();
+        createMenuItem(SEL_TO_TOP, menu, KeyEvent.VK_UP, true, null);
+        createMenuItem(SEL_TO_BOTTOM, menu, KeyEvent.VK_DOWN, true, null);
+        menu.addSeparator();
+        createMenuItem(SEL_LINE, menu, KeyEvent.VK_L, false, null);
+        createMenuItem(SEL_WORD, menu, KeyEvent.VK_W, true, null);
+        createMenuItem(SEL_TO_BoW, menu, KeyEvent.VK_LEFT, false, null);
+        createMenuItem(SEL_TO_BoL, menu, null);
+        createMenuItem(SEL_TO_FCoL, menu, KeyEvent.VK_LEFT, true, null);
+        createMenuItem(SEL_TO_EoW, menu, KeyEvent.VK_RIGHT, false, null);
+        createMenuItem(SEL_TO_EoL, menu, KeyEvent.VK_RIGHT, true, null);
+        createMenuItem(SEL_IB, menu, KeyEvent.VK_M, true, null);
     }
 
     /** Create Help Menu. */
@@ -185,5 +207,5 @@ class Menubar {
     private JMenuBar _menuBar;
 
     /** File Commends Manager . */
-    private FileManager _manager;
+    private Commands _manager;
 }

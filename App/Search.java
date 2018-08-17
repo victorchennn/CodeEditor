@@ -22,6 +22,11 @@ class Search{
             DIS_FONT = new Font("LucidaGrande", Font.PLAIN, 15),
             STA_FONT = new Font("LucidaGrande", Font.PLAIN, 11);
 
+    /** Colors. */
+    static final Color
+            BORDER = new Color(204, 204, 204),
+            FOUND = new Color(18, 197, 28),
+            HILIGHT = new Color(164, 205, 255);
 
     /** Commands. */
     private static final String
@@ -38,10 +43,9 @@ class Search{
             REPALL_TIP = " Replace All [when there are results] ";
 
 
-    /** Set default highlight painter to light grey with alpha 140. */
+    /** Set default highlight painter to BLUE. */
     private static final Highlighter.HighlightPainter painter =
-            new DefaultHighlighter.DefaultHighlightPainter
-                    (new Color(164, 205, 255));
+            new DefaultHighlighter.DefaultHighlightPainter(HILIGHT);
 
 //    /** Used for Test. */
 //    public static void main(String...args) {
@@ -77,10 +81,11 @@ class Search{
         _search.add(center, BorderLayout.CENTER);
         _search.add(blank2, BorderLayout.EAST);
         center.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(204, 204, 204)),
+                BorderFactory.createLineBorder(BORDER),
                 BorderFactory.createEmptyBorder(0, 2, 0, 2)));
         start = _editor.getCaretPosition();
         end = _editor.getCaretPosition();
+        _selectedText = _editor.getSelectedText();
     }
 
     /** Return the search panel. */
@@ -93,7 +98,7 @@ class Search{
      * occurrence in text, set alarm hint in the status bar with highlighted red. */
     private void setFindSelection() {
         String tofind = _find.getText();
-        String text = _selected? _editor.getSelectedText() : _editor.getText();
+        String text = _selected? _selectedText : _editor.getText();
         if (!tofind.equals("")) {
             int i = find(tofind, text);
             if (i >= 0) {
@@ -110,6 +115,7 @@ class Search{
                     _results.setText(String.format(" %d results found for '%s', %d of %d",
                             occur[0], tofind, occur[1], occur[0]));
                 }
+                _results.setForeground(FOUND);
             } else if (i == -2) {
                 _results.setForeground(RED);
                 _results.setText(String.format(" No results found for '%s'", _find.getText()));
@@ -200,7 +206,9 @@ class Search{
         String newone = _replace.getText();
         if (!tofind.equals("") && !newone.equals("")) {
             setFindSelection();
-            _editor.replaceSelection(newone);
+            if (_editor.getSelectedText() != null) {
+                _editor.replaceSelection(newone);
+            }
         }
     }
 
@@ -314,6 +322,9 @@ class Search{
         ops += _up? UF:DF;
         _options.setText(ops);
     }
+
+    /** Record selected text when opening a new search panel. */
+    private String _selectedText;
 
     /** Record index and occurrences of substring in the text, divided by if
      * choose to match case, matchcase->index->order. */
