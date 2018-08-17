@@ -312,6 +312,7 @@ class FileManager {
         return editorArea;
     }
 
+    /** All commands in search panel. */
     private Search _search;
 
     /** FileChooser for fileManager. */

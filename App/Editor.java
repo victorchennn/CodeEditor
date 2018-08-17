@@ -10,10 +10,16 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.*;
 
-/**
+/** Plain text editor.
  *  @author Victor Chen
  */
 class Editor extends JTextArea {
+
+    /** Colors of highlighted line and indexBar background. */
+    private static final Color
+            HIGHLIGHT = new Color(201, 222, 193),
+            BAR_BACKGROUND = new Color(248, 245, 231),
+            ORIGINAL = new Color(238, 238, 238);
 
     Editor(File file, boolean newfile, GUI gui) {
         _file = file;
@@ -48,7 +54,8 @@ class Editor extends JTextArea {
             } catch (BadLocationException err) {
                 /* Ignore BadLocationException */
             }
-            _gui.getStatusbar().setText(file.getName() + "   " + row + ":" + col + "   ");
+            _gui.getStatusbar().setText(String.format("%s   %d:%d   ",
+                    file.getName(), row, col));
         });
     }
 
@@ -145,18 +152,11 @@ class Editor extends JTextArea {
                     } catch (BadLocationException er) {
                         /* Impossible */
                     }
-
                 }
             });
             _indexbar.add(index);
         }
     }
-
-    /** Colors of highlighted line and indexBar background. */
-    private static final Color
-        HIGHLIGHT = new Color(201, 222, 193),
-        BAR_BACKGROUND = new Color(248, 245, 231),
-        ORIGINAL = new Color(238, 238, 238);
 
     /** Undo manager. */
     private UndoManager _undo = new UndoManager();

@@ -9,11 +9,33 @@ import java.awt.event.*;
  */
 class Menubar {
 
+    /** Fonts. */
+    private static final Font
+            SIGN_FONT = new Font("LucidaGrande", Font.BOLD, 14);
+
+    /** Commands. */
+    private static final String
+            SIGN = "Victor", FILE = "File", EDIT = "Edit", VIEW = "View",
+            SEL = "Selection", HELP = "Help",
+
+            ABOUT = "About ...", QUIT = "Quit",
+
+            NEW_WINDOW = "New Window", NEW_FILE = "New File", OPEN = "Open",
+            REOPEN = "Reopen", REOPEN_LAST = "Reopen Last Item", SAVE = "Save",
+            SAVE_AS = "Save As...", SAVE_ALL = "Save All", CLOSE_TAB = "Close Tab",
+            CLOSE_ALL = "Close All", CLEAR_H = "Clear History",
+
+            UNDO = "Undo", REDO = "Redo", CUT = "Cut", COPY = "Copy",
+            COPY_PATH = "Copy Path", COPY_REF = "Copy Reference", PASTE = "Paste",
+            DELETE = "Delete", FIND = "Find", REPLACE = "Replace",
+            GOTOLINE = "Go to Line", SELECT_ALL = "Select All", TD = "Time & Date";
+
     Menubar(GUI gui) {
         _menuBar = new JMenuBar();
         _manager = new FileManager(gui);
     }
 
+    /** Create all the menus in menuBar. */
     JMenuBar createMenuBar() {
         createSignMenu();
         createFileMenu();
@@ -24,6 +46,7 @@ class Menubar {
         return _menuBar;
     }
 
+    /** Get file manager. */
     FileManager getManager() {
         return _manager;
     }
@@ -51,7 +74,7 @@ class Menubar {
     private void createSignMenu() {
         JMenu menu = createMenu(SIGN, _menuBar);
         menu.setFont(SIGN_FONT);
-//        createMenuItem(ABOUT, menu, this);
+        createMenuItem(ABOUT, menu, null);
         menu.addSeparator();
         createMenuItem(QUIT, menu, KeyEvent.VK_Q, false, e -> System.exit(0));
     }
@@ -113,15 +136,16 @@ class Menubar {
         JMenu menu = createMenu(HELP, _menuBar);
     }
 
-
-    private JMenu createMenu(String command, JMenuBar menuBar) {
-        JMenu menu = new JMenu(command);
+    /** Add a Menu with title NAME to JMenubar menuBar. */
+    private JMenu createMenu(String name, JMenuBar menuBar) {
+        JMenu menu = new JMenu(name);
         menuBar.add(menu);
         return menu;
     }
 
-    private JMenu createMenu(String command, JMenu toMenu) {
-        JMenu addMenu = new JMenu(command);
+    /** Add a Menu with title NAME to parental Menu toMenu. */
+    private JMenu createMenu(String name, JMenu toMenu) {
+        JMenu addMenu = new JMenu(name);
         toMenu.add(addMenu);
         return addMenu;
     }
@@ -132,7 +156,7 @@ class Menubar {
         return createMenuItem(command, toMenu, 0, false, actListener);
     }
 
-    /** Add a menuitem to MENU. If it has an accelerator key, use ctrl or
+    /** Add a menuitem to MENU. If it has an accelerator key, set ctrl or
      * ctrl + shift commend based on boolean ADVANCE. */
     private JMenuItem createMenuItem(String command, JMenu toMenu, int aclKey,
                                 boolean advance, ActionListener actListener) {
@@ -150,27 +174,6 @@ class Menubar {
         toMenu.add(menuitem);
         return menuitem;
     }
-
-    /** Fonts. */
-    private static final Font
-            SIGN_FONT = new Font("LucidaGrande", Font.BOLD, 14);
-
-    /** Commands. */
-    private static final String
-            SIGN = "Victor", FILE = "File", EDIT = "Edit", VIEW = "View",
-            SEL = "Selection", HELP = "Help",
-
-            ABOUT = "About ...", QUIT = "Quit",
-
-            NEW_WINDOW = "New Window", NEW_FILE = "New File", OPEN = "Open",
-            REOPEN = "Reopen", REOPEN_LAST = "Reopen Last Item", SAVE = "Save",
-            SAVE_AS = "Save As...", SAVE_ALL = "Save All", CLOSE_TAB = "Close Tab",
-            CLOSE_ALL = "Close All", CLEAR_H = "Clear History",
-
-            UNDO = "Undo", REDO = "Redo", CUT = "Cut", COPY = "Copy",
-            COPY_PATH = "Copy Path", COPY_REF = "Copy Reference", PASTE = "Paste",
-            DELETE = "Delete", FIND = "Find", REPLACE = "Replace",
-            GOTOLINE = "Go to Line", SELECT_ALL = "Select All", TD = "Time & Date";
 
     /** Menu REOPEN_LAST. */
     private JMenuItem _reopenlast;

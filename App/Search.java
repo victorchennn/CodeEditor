@@ -17,20 +17,47 @@ import static java.awt.Color.*;
  */
 class Search{
 
-    public static void main(String...args) {
-        JFrame frame = new JFrame();
-        frame.setSize(900, 800);
-        JPanel _container = new JPanel();
-        _container.setLayout(new BoxLayout(_container, BoxLayout.Y_AXIS));
-        JLabel label = new JLabel("  ");
-        label.setPreferredSize(new Dimension(900, 675));
-        _container.add(label);
-        Search a = new Search(null);
-        _container.add(a.getSearch());
-        frame.add(_container, BorderLayout.CENTER);
-        frame.setVisible(true);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-    }
+    /** Fonts. */
+    private static final Font
+            DIS_FONT = new Font("LucidaGrande", Font.PLAIN, 15),
+            STA_FONT = new Font("LucidaGrande", Font.PLAIN, 11);
+
+
+    /** Commands. */
+    private static final String
+            FIND_INIT = " Find in current buffer ", FIND = "Find",
+            FINDALL = " Find All ", REP_INIT = " Replace in current buffer ",
+            REP = "Replace", REPALL = "Replace All", CASE = "A a",
+            CASE_TIP = " Match Case ", SEL = "< >", SEL_TIP = " Only In Selection ",
+            UD = "⬆⬇", UD_TIP = " Previous or Next Occurrence ", CLOSE = "╳",
+            CLOSE_TIP = " Close Panel ", STATUS = "Finding with options: ",
+            NCASE = "Case Insensitive", YCASE = "Case Sensitive",
+            YSE = ", Within Current Selection", DF = ", Find Next Occurrence ",
+            UF = ", Find Previous Occurrence ", FIND_TIP = " Find Next ",
+            REP_TIP = " Replace Next [when there are results] ",
+            REPALL_TIP = " Replace All [when there are results] ";
+
+
+    /** Set default highlight painter to light grey with alpha 140. */
+    private static final Highlighter.HighlightPainter painter =
+            new DefaultHighlighter.DefaultHighlightPainter
+                    (new Color(164, 205, 255));
+
+//    /** Used for Test. */
+//    public static void main(String...args) {
+//        JFrame frame = new JFrame();
+//        frame.setSize(900, 800);
+//        JPanel _container = new JPanel();
+//        _container.setLayout(new BoxLayout(_container, BoxLayout.Y_AXIS));
+//        JLabel label = new JLabel("  ");
+//        label.setPreferredSize(new Dimension(900, 675));
+//        _container.add(label);
+//        Search a = new Search(null);
+//        _container.add(a.getSearch());
+//        frame.add(_container, BorderLayout.CENTER);
+//        frame.setVisible(true);
+//        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+//    }
 
     /** Create a new search panel. */
     Search(Editor editor) {
@@ -127,12 +154,6 @@ class Search{
      * to match case, for each case, record the start index and order of that found one. */
     private int[] getOccurrence(String key, String text, boolean matchcase, int fromindex) {
         int[] results = new int[2];
-        if (occur.keySet().contains(key)) {
-            results[0] = occur.get(key).get(matchcase).size();
-            results[1] = occur.get(key).get(matchcase).get(fromindex);
-            return results;
-        }
-        HashMap<Boolean, HashMap<Integer, Integer>> temp = new HashMap<>();
         int two = 2;
         boolean mc = true;
         while (two > 0) {
@@ -147,13 +168,12 @@ class Search{
                     i++;
                 }
             }
-            temp.put(mc, keyoccur);
+            occur.put(mc, keyoccur);
             mc = false;
             two--;
         }
-        occur.put(key, temp);
-        results[0] = occur.get(key).get(matchcase).size();
-        results[1] = occur.get(key).get(matchcase).get(fromindex);
+        results[0] = occur.get(matchcase).size();
+        results[1] = occur.get(matchcase).get(fromindex);
         return results;
     }
 
@@ -165,7 +185,7 @@ class Search{
         String tofind = _find.getText();
         if (!tofind.equals("")) {
             try {
-                for (int i : occur.get(tofind).get(_matchcase).keySet()) {
+                for (int i : occur.get(_matchcase).keySet()) {
                     highlighter.addHighlight(i, i + tofind.length(), painter);
                 }
             } catch (BadLocationException e) {
@@ -194,7 +214,7 @@ class Search{
             Highlighter highlighter = _editor.getHighlighter();
             highlighter.removeAllHighlights();
             try {
-                for (int i : occur.get(tofind).get(_matchcase).keySet()) {
+                for (int i : occur.get(_matchcase).keySet()) {
                     _editor.replaceRange(newone, i, i + newone.length());
                     highlighter.addHighlight(i, i + newone.length(), painter);
                 }
@@ -295,36 +315,9 @@ class Search{
         _options.setText(ops);
     }
 
-    /** Fonts. */
-    private static final Font
-            DIS_FONT = new Font("LucidaGrande", Font.PLAIN, 15),
-            STA_FONT = new Font("LucidaGrande", Font.PLAIN, 11);
-
-
-    /** Commands. */
-    private static final String
-            FIND_INIT = " Find in current buffer ", FIND = "Find",
-            FINDALL = " Find All ", REP_INIT = " Replace in current buffer ",
-            REP = "Replace", REPALL = "Replace All", CASE = "A a",
-            CASE_TIP = " Match Case ", SEL = "< >", SEL_TIP = " Only In Selection ",
-            UD = "⬆⬇", UD_TIP = " Previous or Next Occurrence ", CLOSE = "╳",
-            CLOSE_TIP = " Close Panel ", STATUS = "Finding with options: ",
-            NCASE = "Case Insensitive", YCASE = "Case Sensitive",
-            YSE = ", Within Current Selection", DF = ", Find Next Occurrence ",
-            UF = ", Find Previous Occurrence ", FIND_TIP = " Find Next ",
-            REP_TIP = " Replace Next [when there are results] ",
-            REPALL_TIP = " Replace All [when there are results] ";
-
-
-    /** Set default highlight painter to light grey with alpha 140. */
-    private static final Highlighter.HighlightPainter painter =
-            new DefaultHighlighter.DefaultHighlightPainter
-                    (new Color(164, 205, 255));
-
     /** Record index and occurrences of substring in the text, divided by if
-     * choose to match case, key->matchcase->index->order. */
-    private HashMap<String, HashMap<Boolean, HashMap<Integer, Integer>>>
-            occur = new HashMap<>();
+     * choose to match case, matchcase->index->order. */
+    private HashMap<Boolean, HashMap<Integer, Integer>> occur = new HashMap<>();
 
     /** Record start and end index of search string. */
     private int start, end;
