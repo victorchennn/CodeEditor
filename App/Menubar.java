@@ -19,6 +19,7 @@ class Menubar {
         createFileMenu();
         createEditMenu();
         createViewMenu();
+        createSelectionMenu();
         createHelpMenu();
         return _menuBar;
     }
@@ -77,7 +78,8 @@ class Menubar {
     /** Create Edit Menu, including all the edit file commands. */
     private void createEditMenu() {
         JMenu menu = createMenu(EDIT, _menuBar);
-        createMenuItem(UNDO, menu, KeyEvent.VK_Z, false, e -> {});
+        createMenuItem(UNDO, menu, KeyEvent.VK_Z, false, e -> _manager.undo(true));
+        createMenuItem(REDO, menu, KeyEvent.VK_Z, true, e -> _manager.undo(false));
         menu.addSeparator();
         createMenuItem(CUT, menu, KeyEvent.VK_X, false, e -> _manager.simpleEditCommand(1));
         createMenuItem(COPY, menu, KeyEvent.VK_C, false, e -> _manager.simpleEditCommand(2));
@@ -99,6 +101,11 @@ class Menubar {
     /** Create View Menu. */
     private void createViewMenu() {
         JMenu menu = createMenu(VIEW, _menuBar);
+    }
+
+    /** Create View Menu. */
+    private void createSelectionMenu() {
+        JMenu menu = createMenu(SEL, _menuBar);
     }
 
     /** Create Help Menu. */
@@ -151,7 +158,7 @@ class Menubar {
     /** Commands. */
     private static final String
             SIGN = "Victor", FILE = "File", EDIT = "Edit", VIEW = "View",
-            HELP = "Help",
+            SEL = "Selection", HELP = "Help",
 
             ABOUT = "About ...", QUIT = "Quit",
 
@@ -160,10 +167,10 @@ class Menubar {
             SAVE_AS = "Save As...", SAVE_ALL = "Save All", CLOSE_TAB = "Close Tab",
             CLOSE_ALL = "Close All", CLEAR_H = "Clear History",
 
-            UNDO = "Undo", CUT = "Cut", COPY = "Copy", COPY_PATH = "Copy Path",
-            COPY_REF = "Copy Reference", PASTE = "Paste", DELETE = "Delete",
-            FIND = "Find", REPLACE = "Replace", GOTOLINE = "Go to Line",
-            SELECT_ALL = "Select All", TD = "Time & Date";
+            UNDO = "Undo", REDO = "Redo", CUT = "Cut", COPY = "Copy",
+            COPY_PATH = "Copy Path", COPY_REF = "Copy Reference", PASTE = "Paste",
+            DELETE = "Delete", FIND = "Find", REPLACE = "Replace",
+            GOTOLINE = "Go to Line", SELECT_ALL = "Select All", TD = "Time & Date";
 
     /** Menu REOPEN_LAST. */
     private JMenuItem _reopenlast;

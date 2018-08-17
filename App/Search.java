@@ -15,6 +15,21 @@ import java.util.HashMap;
  */
 class Search{
 
+    public static void main(String...args) {
+        JFrame frame = new JFrame();
+        frame.setSize(900, 800);
+        JPanel _container = new JPanel();
+        _container.setLayout(new BoxLayout(_container, BoxLayout.Y_AXIS));
+        JLabel label = new JLabel("  ");
+        label.setPreferredSize(new Dimension(900, 675));
+        _container.add(label);
+        Search a = new Search(null);
+        _container.add(a.getSearch());
+        frame.add(_container, BorderLayout.CENTER);
+        frame.setVisible(true);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    }
+
     /** Create a new search panel. */
     Search(Editor editor) {
         _editor = editor;

@@ -3,6 +3,7 @@ package App;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.BadLocationException;
+import javax.swing.undo.UndoManager;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
@@ -152,6 +153,9 @@ class FileManager {
                 _gui.getTextArea().remove(pane);
             }
         }
+        if (_search != null) {
+            _gui.getRightPanel().remove(_search.getSearch());
+        }
         return 1;
     }
 
@@ -203,14 +207,28 @@ class FileManager {
         }
     }
 
+    /** Undo or Redo the last change in current editor. */
+    void undo(boolean undo) {
+        JScrollPane pane = (JScrollPane)  _gui.getTextArea().getSelectedComponent();
+        Editor currentEditor = getSelectedEditor(pane);
+        if (currentEditor != null) {
+            UndoManager undoman = currentEditor.getUndo();
+            if (undo && undoman.canUndo()) {
+                undoman.undo();
+            } else if (!undo && undoman.canRedo()) {
+                undoman.redo();
+            }
+        }
+    }
+
     /** Evoke the search panel, used for find and replace commands. */
     void search() {
         JScrollPane pane = (JScrollPane)  _gui.getTextArea().getSelectedComponent();
         Editor currentEditor = getSelectedEditor(pane);
         if (currentEditor != null) {
-            Search fp = new Search(currentEditor);
+            _search = new Search(currentEditor);
             JPanel right = _gui.getRightPanel();
-            right.add(fp.getSearch());
+            right.add(_search.getSearch());
             right.revalidate();
             right.repaint();
         }
@@ -291,6 +309,8 @@ class FileManager {
         editorArea.setLayout(new BoxLayout(editorArea, BoxLayout.X_AXIS));
         return editorArea;
     }
+
+    private Search _search;
 
     /** FileChooser for fileManager. */
     private JFileChooser _filechooser;

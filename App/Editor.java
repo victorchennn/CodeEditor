@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
+import javax.swing.undo.UndoManager;
 import java.awt.*;
 import java.io.*;
 
@@ -11,7 +12,6 @@ import java.io.*;
  *  @author Victor Chen
  */
 class Editor extends JTextArea {
-
 
     Editor(File file, boolean newfile, GUI gui) {
         _file = file;
@@ -22,6 +22,7 @@ class Editor extends JTextArea {
         _indexbar = createIndexBar();
         _gui = gui;
         _gui.getStatusbar().setText(file.getName() + "   0:0   ");
+        getDocument().addUndoableEditListener(_undo);
         getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -47,6 +48,11 @@ class Editor extends JTextArea {
             }
             _gui.getStatusbar().setText(file.getName() + "   " + row + ":" + col + "   ");
         });
+    }
+
+    /** Return undoManager. */
+    UndoManager getUndo() {
+        return _undo;
     }
 
     /** Return indexBar. */
@@ -94,12 +100,13 @@ class Editor extends JTextArea {
         JPanel label = new JPanel();
         label.setLayout(new BoxLayout(label, BoxLayout.Y_AXIS));
         label.setBackground(Color.WHITE);
-        label.setPreferredSize(new Dimension(30, 10000));
+        label.setPreferredSize(new Dimension(30, 100));
         label.setMaximumSize(new Dimension(30, 10000));
         for (int i = 1; i <= getLineCount(); i++) {
             JLabel index = new JLabel(Integer.toString(i));
             label.add(index);
         }
+        label.setBackground(new Color(248, 245, 231));
         return label;
     }
 
@@ -109,6 +116,7 @@ class Editor extends JTextArea {
         if (_initrows != curlinecount) {
             _initrows = curlinecount;
             _indexbar.removeAll();
+            _indexbar.revalidate();
             _indexbar.repaint();
             for (int i = 1; i <= _initrows; i++) {
                 JLabel index = new JLabel(Integer.toString(i));
@@ -116,6 +124,9 @@ class Editor extends JTextArea {
             }
         }
     }
+
+    /** Undo manager. */
+    private UndoManager _undo = new UndoManager();
 
     /** GUI in display. */
     private GUI _gui;
