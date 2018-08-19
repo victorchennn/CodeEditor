@@ -7,6 +7,8 @@ import javax.swing.text.Highlighter;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import static java.awt.Color.*;
 
@@ -85,6 +87,7 @@ class Search{
                 BorderFactory.createEmptyBorder(0, 2, 0, 2)));
         start = _editor.getCaretPosition();
         end = _editor.getCaretPosition();
+        _highlighter = _editor.getHighlighter();
         _selectedText = _editor.getSelectedText();
     }
 
@@ -100,15 +103,14 @@ class Search{
         String tofind = _find.getText();
         String text = _selected? _selectedText : _editor.getText();
         if (!tofind.equals("")) {
+            _highlighter.removeAllHighlights();
             int i = find(tofind, text);
             if (i >= 0) {
                 _editor.setSelectionStart(i);
-                _editor.setSelectionEnd(i + _find.getText().length());
-                _editor.setSelectedTextColor(YELLOW);
+                _editor.setSelectionEnd(i + tofind.length());
                 start = _editor.getSelectionEnd();
                 end = _editor.getSelectionStart() - 1;
                 int[] occur = getOccurrence(tofind, text, _matchcase, i);
-                _results.setForeground(BLACK);
                 if (occur[0] == 1) {
                     _results.setText(String.format(" 1 result found for '%s'", tofind));
                 } else {
@@ -183,16 +185,16 @@ class Search{
         return results;
     }
 
-    /** Find all the needed strings in text and highlight them. */
+    /** Find all the needed strings in text and highlight them, but do not
+     * select them. */
     private void findall() {
         setFindSelection();
-        Highlighter highlighter = _editor.getHighlighter();
-        highlighter.removeAllHighlights();
+        _highlighter.removeAllHighlights();
         String tofind = _find.getText();
         if (!tofind.equals("")) {
             try {
                 for (int i : occur.get(_matchcase).keySet()) {
-                    highlighter.addHighlight(i, i + tofind.length(), painter);
+                    _highlighter.addHighlight(i, i + tofind.length(), painter);
                 }
             } catch (BadLocationException e) {
                 /* ... */
@@ -200,14 +202,31 @@ class Search{
         }
     }
 
-    /** Replace currently selected string to a new string. */
+    /** Replace currently selected string to a new string, or try to find one
+     * which can match up text in _find textfield. */
     private void replace() {
         String tofind = _find.getText();
         String newone = _replace.getText();
-        if (!tofind.equals("") && !newone.equals("")) {
-            setFindSelection();
+        if (!tofind.equals("")) {
             if (_editor.getSelectedText() != null) {
-                _editor.replaceSelection(newone);
+                try {
+                    int i = _editor.getSelectionStart();
+                    _editor.replaceSelection(newone);
+                    _highlighter.addHighlight(i, i + newone.length(), painter);
+                } catch (BadLocationException e) {
+                    /* ... */
+                }
+            } else {
+                setFindSelection();
+                if (_editor.getSelectedText() != null) {
+                    try {
+                        int i = _editor.getSelectionStart();
+                        _editor.replaceSelection(newone);
+                        _highlighter.addHighlight(i, i + newone.length(), painter);
+                    } catch (BadLocationException e) {
+                        /* ... */
+                    }
+                }
             }
         }
     }
@@ -217,17 +236,25 @@ class Search{
     private void replaceall() {
         String tofind = _find.getText();
         String newone = _replace.getText();
-        if (!tofind.equals("") && !newone.equals("")) {
+        Set<Integer> starts = new HashSet<>();
+        if (!tofind.equals("")) {
             setFindSelection();
-            Highlighter highlighter = _editor.getHighlighter();
-            highlighter.removeAllHighlights();
+            starts.add(_editor.getSelectionStart());
+            while (_editor.getSelectedText() != null) {
+                _editor.replaceSelection(newone);
+                setFindSelection();
+                if (!starts.contains(_editor.getSelectionStart())) {
+                    starts.add(_editor.getSelectionStart());
+                } else {
+                    break;
+                }
+            }
             try {
-                for (int i : occur.get(_matchcase).keySet()) {
-                    _editor.replaceRange(newone, i, i + newone.length());
-                    highlighter.addHighlight(i, i + newone.length(), painter);
+                for (int i : starts) {
+                    _highlighter.addHighlight(i, i + newone.length(), painter);
                 }
             } catch (BadLocationException e) {
-                /* ..*/
+                /* ... */
             }
         }
     }
@@ -322,6 +349,9 @@ class Search{
         ops += _up? UF:DF;
         _options.setText(ops);
     }
+
+    /** Highlighter of the editor. */
+    private Highlighter _highlighter;
 
     /** Record selected text when opening a new search panel. */
     private String _selectedText;
