@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
+import javax.swing.text.Highlighter;
 import javax.swing.undo.UndoManager;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -27,6 +28,7 @@ class Editor extends JTextArea {
         writeFile(file);
         _inittext = getText();
         _initrows = getLineCount();
+        _highlighter = getHighlighter();
         _indexbar = createIndexBar();
         _gui = gui;
         _gui.getStatusbar().setText(file.getName() + "   0:0   ");
@@ -35,10 +37,12 @@ class Editor extends JTextArea {
             @Override
             public void insertUpdate(DocumentEvent e) {
                 updateIndexBar();
+                _highlighter.removeAllHighlights();
             }
             @Override
             public void removeUpdate(DocumentEvent e) {
                 updateIndexBar();
+                _highlighter.removeAllHighlights();
             }
             @Override
             public void changedUpdate(DocumentEvent e) {
@@ -157,6 +161,9 @@ class Editor extends JTextArea {
             _indexbar.add(index);
         }
     }
+
+    /** Highlighter of the editor. */
+    private Highlighter _highlighter;
 
     /** Undo manager. */
     private UndoManager _undo = new UndoManager();
