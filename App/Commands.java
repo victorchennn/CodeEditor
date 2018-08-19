@@ -33,16 +33,20 @@ class Commands {
 
     /** Create a new empty editor. */
     void newFile() {
-        JTabbedPane textarea = _gui.getTextArea();
         String entertitle = "<html>Enter the name for the new file.<br><br></html>";
         String title = JOptionPane.showInputDialog(null, entertitle, "Untitled");
         if (title != null) {
-            Editor newone = new Editor(new File(title), true, _gui);
-            JPanel editorArea = createEditorArea(newone);
-            textarea.addTab(title, new JScrollPane(editorArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-                    JScrollPane.HORIZONTAL_SCROLLBAR_NEVER));
-            _history.add(newone);
-            newone.requestFocus();
+            Editor editor = new Editor(new File(title), true, _gui);
+            JPanel editorArea = createEditorArea(editor);
+            JScrollPane newone = new JScrollPane(editorArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                    JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+            _gui.getTextArea().addTab(title, newone);
+            _gui.getTextArea().setSelectedComponent(newone);
+            _history.add(editor);
+            if (_search != null) {
+                _gui.getRightPanel().remove(_search.getSearch());
+            }
+            editor.requestFocus();
         }
     }
 
@@ -65,10 +69,15 @@ class Commands {
         String title = file.getName();
         Editor editor = new Editor(file, false, _gui);
         JPanel editorArea = createEditorArea(editor);
-        _gui.getTextArea().addTab(title, new JScrollPane(editorArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER));
+        JScrollPane newone = new JScrollPane(editorArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        _gui.getTextArea().addTab(title, newone);
+        _gui.getTextArea().setSelectedComponent(newone);
         updateHistory(editor);
         _gui.getMenubar().createHistory();
+        if (_search != null) {
+            _gui.getRightPanel().remove(_search.getSearch());
+        }
         editor.requestFocus();
     }
 
