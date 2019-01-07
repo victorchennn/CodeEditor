@@ -28,7 +28,6 @@ class Menubar {
             DELETE = "Delete", FIND = "Find", REPLACE = "Replace",
             GOTOLINE = "Go to Line", SELECT_ALL = "Select All", TD = "Time & Date",
 
-            SEL_ADD_ABOVE = "Add Selection Above", SEL_ADD_BELOW = "Add Selection Below",
             SEL_TO_TOP = "Select to Top", SEL_TO_BOTTOM = "Select to Bottom",
             SEL_LINE = "Select Line", SEL_WORD = "Select Word",
             SEL_TO_BoW = "Select to Beginning of Word",
@@ -36,7 +35,10 @@ class Menubar {
             SEL_TO_EoW = "Select to End of Word",
             SEL_TO_EoL = "Select to End of Line",
             SEL_TO_FCoL = "Select to First Character of Line",
-            SEL_IB = "Select Inside Brackets";
+            SEL_IB = "Select Inside Brackets",
+
+            STATUS_BAR = "Status Bar", INDEX_BAR = "Index Bar",
+            FONT = "Font...", STYLE = "Style";
 
     Menubar(GUI gui) {
         _menuBar = new JMenuBar();
@@ -132,6 +134,12 @@ class Menubar {
     /** Create View Menu. */
     private void createViewMenu() {
         JMenu menu = createMenu(VIEW, _menuBar);
+        JCheckBoxMenuItem _statusbar = createJCheckBoxMenuItem(STATUS_BAR, menu);
+        _statusbar.addActionListener(e -> _manager.showStatusBar(_statusbar.isSelected()));
+        JCheckBoxMenuItem _indexbar = createJCheckBoxMenuItem(INDEX_BAR, menu);
+        _indexbar.addActionListener(e -> _manager.showIndexBar(_indexbar.isSelected()));
+        menu.addSeparator();
+        createStyleMenu(menu, _manager.getGUI().getFrame());
     }
 
     /** Create Selection Menu, including all the commands of editor selection options. */
@@ -169,10 +177,18 @@ class Menubar {
         return addMenu;
     }
 
-    /** Add a menuitem without accelerator to MENU. */
+    /** Add a Menuitem without accelerator to MENU. */
     private JMenuItem createMenuItem(String command, JMenu toMenu,
                                 ActionListener actListener) {
         return createMenuItem(command, toMenu, 0, false, actListener);
+    }
+
+    /** Add a JCheckBoxMenuitem to MENU. */
+    private JCheckBoxMenuItem createJCheckBoxMenuItem(String name, JMenu toMenu) {
+        JCheckBoxMenuItem boxitem = new JCheckBoxMenuItem(name);
+        boxitem.setSelected(true);
+        toMenu.add(boxitem);
+        return boxitem;
     }
 
     /** Add a menuitem to MENU. If it has an accelerator key, set ctrl or
@@ -192,6 +208,10 @@ class Menubar {
         }
         toMenu.add(menuitem);
         return menuitem;
+    }
+
+    private void createStyleMenu(JMenu menu, Component component) {
+        new Styles(menu, component);
     }
 
     /** Menu REOPEN_LAST. */

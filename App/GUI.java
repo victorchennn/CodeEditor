@@ -18,7 +18,7 @@ public class GUI {
     }
 
     GUI() {
-        JFrame _frame = new JFrame();
+        _frame = new JFrame();
         _frame.setSize(1200, 800);
         _frame.setLocation(150, 100);
         JPanel _container = new JPanel();
@@ -43,6 +43,11 @@ public class GUI {
                 }
             }
         });
+    }
+
+    /** Return the GUI frame. */
+    JFrame getFrame() {
+        return _frame;
     }
 
     /** Return the TextArea in GUI. */
@@ -136,6 +141,8 @@ public class GUI {
             }
         }
     }
+
+    private JFrame _frame;
 
     /** Right Panel. */
     private JPanel _right;

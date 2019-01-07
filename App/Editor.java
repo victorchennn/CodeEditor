@@ -23,6 +23,7 @@ class Editor extends JTextArea {
             ORIGINAL = new Color(238, 238, 238);
 
     Editor(File file, boolean newfile, GUI gui) {
+        setLineWrap(true);
         _file = file;
         _newfile = newfile;
         writeFile(file);
@@ -46,7 +47,7 @@ class Editor extends JTextArea {
             }
             @Override
             public void changedUpdate(DocumentEvent e) {
-
+                
             }
         });
         addCaretListener(e -> {
@@ -117,6 +118,7 @@ class Editor extends JTextArea {
         _indexbar.setMaximumSize(new Dimension(30, 10000));
         createIndex(getLineCount());
         _indexbar.setBackground(BAR_BACKGROUND);
+        _indexbar.setVisible(true);
         return _indexbar;
     }
 
@@ -185,4 +187,5 @@ class Editor extends JTextArea {
 
     /** File is newly created or not. */
     private boolean _newfile;
+
 }

@@ -336,7 +336,7 @@ class Commands {
                     case 8: curEd.setSelectionStart(curPot); /* Select EoW. */
                         curEd.setSelectionEnd(ewPot);
                         break;
-                    case 9: curEd.setSelectionStart(curEd.getLineStartOffset(curPot)); /* Select EoL. */
+                    case 9: curEd.setSelectionStart(curPot); /* Select EoL. */
                         curEd.setSelectionEnd(curEd.getLineStartOffset(curRow + 1));
                         break;
                     case 0: int[] r = getBracketsPot(curEd, curPot); /* Select Inside Brackets. */
@@ -349,9 +349,21 @@ class Commands {
             } catch (BadLocationException e) {
                 /* No such case. */
             }
-
         }
+    }
 
+    /** Show the status bar iff isSelected. */
+    void showStatusBar(boolean isSelected) {
+        _gui.getStatusbar().setVisible(isSelected);
+    }
+
+    /** Show the index bar iff isSelected. */
+    void showIndexBar(boolean isSelected) {
+        JScrollPane pane = (JScrollPane) _gui.getTextArea().getSelectedComponent();
+        Editor curEd = getSelectedEditor(pane);
+        if (curEd != null) {
+            curEd.getIndexBar().setVisible(isSelected);
+        }
     }
 
     /** Get the history records. */
@@ -363,6 +375,10 @@ class Commands {
     void clearHistory() {
         _history.clear();
         _gui.getMenubar().createHistory();
+    }
+
+    GUI getGUI() {
+        return _gui;
     }
 
     /** Search the beginning position and end position of brackets. */
