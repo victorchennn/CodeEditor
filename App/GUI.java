@@ -142,9 +142,10 @@ public class GUI {
         }
     }
 
+    /** GUI frame. */
     private JFrame _frame;
 
-    /** Right Panel. */
+    /** Right panel. */
     private JPanel _right;
 
     /** Status bar. */

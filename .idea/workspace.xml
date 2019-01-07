@@ -7,19 +7,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1d299083-effe-4683-9f7e-167670910722" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/CodeEditor/App/Styles.class" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/App/Styles.java" afterPath="$PROJECT_DIR$/App/GUIStyles.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/CodeEditor/App/Commands.class" afterPath="$PROJECT_DIR$/out/production/CodeEditor/App/Commands.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/CodeEditor/App/Editor$1.class" afterPath="$PROJECT_DIR$/out/production/CodeEditor/App/Editor$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/CodeEditor/App/Editor$2.class" afterPath="$PROJECT_DIR$/out/production/CodeEditor/App/Editor$2.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/CodeEditor/App/Editor.class" afterPath="$PROJECT_DIR$/out/production/CodeEditor/App/Editor.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/CodeEditor/App/GUI$2.class" afterPath="$PROJECT_DIR$/out/production/CodeEditor/App/GUI$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/CodeEditor/App/GUI.class" afterPath="$PROJECT_DIR$/out/production/CodeEditor/App/GUI.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/CodeEditor/App/Menubar.class" afterPath="$PROJECT_DIR$/out/production/CodeEditor/App/Menubar.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/Commands.java" afterPath="$PROJECT_DIR$/App/Commands.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/Editor.java" afterPath="$PROJECT_DIR$/App/Editor.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/GUI.java" afterPath="$PROJECT_DIR$/App/GUI.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/Menubar.java" afterPath="$PROJECT_DIR$/App/Menubar.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/CodeEditor/.idea/workspace.xml" afterPath="$PROJECT_DIR$/out/production/CodeEditor/.idea/workspace.xml" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -34,16 +32,40 @@
       <file leaf-file-name="Menubar.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/App/Menubar.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="462">
-              <caret line="215" column="0" lean-forward="true" selection-start-line="215" selection-start-column="0" selection-end-line="215" selection-end-column="0" />
+            <state relative-caret-position="387">
+              <caret line="218" column="5" lean-forward="true" selection-start-line="218" selection-start-column="5" selection-end-line="218" selection-end-column="5" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#2068#2069#0" expanded="true" />
-                <element signature="e#2099#2100#0" expanded="true" />
-                <element signature="e#7501#7502#0" expanded="true" />
-                <element signature="e#7556#7557#0" expanded="true" />
-                <element signature="e#9424#9425#0" expanded="true" />
-                <element signature="e#9467#9468#0" expanded="true" />
+                <element signature="e#2077#2078#0" expanded="true" />
+                <element signature="e#2108#2109#0" expanded="true" />
+                <element signature="e#2194#2195#0" expanded="true" />
+                <element signature="e#2226#2227#0" expanded="true" />
+                <element signature="e#7775#7776#0" expanded="true" />
+                <element signature="e#7830#7831#0" expanded="true" />
+                <element signature="e#9727#9728#0" expanded="true" />
+                <element signature="e#9773#9774#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FontStyles.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/App/FontStyles.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="30">
+              <caret line="2" column="25" lean-forward="true" selection-start-line="2" selection-start-column="25" selection-end-line="2" selection-end-column="25" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GUIStyles.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/App/GUIStyles.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="135">
+              <caret line="9" column="23" lean-forward="true" selection-start-line="9" selection-start-column="23" selection-end-line="9" selection-end-column="23" />
+              <folding>
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -52,13 +74,27 @@
       <file leaf-file-name="Commands.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/App/Commands.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-6262">
-              <caret line="9" column="17" lean-forward="true" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
+            <state relative-caret-position="120">
+              <caret line="8" column="45" lean-forward="false" selection-start-line="8" selection-start-column="45" selection-end-line="8" selection-end-column="45" />
               <folding>
                 <element signature="e#14542#14543#0" expanded="true" />
                 <element signature="e#14600#14601#0" expanded="true" />
-                <element signature="e#15183#15184#0" expanded="true" />
-                <element signature="e#15210#15211#0" expanded="true" />
+                <element signature="e#16189#16190#0" expanded="true" />
+                <element signature="e#16220#16221#0" expanded="true" />
+                <element signature="e#16398#16399#0" expanded="true" />
+                <element signature="e#16425#16426#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Editor.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/App/Editor.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-123">
+              <caret line="2" column="7" lean-forward="true" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
+              <folding>
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -67,14 +103,12 @@
       <file leaf-file-name="GUI.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/App/GUI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-519">
-              <caret line="31" column="30" lean-forward="false" selection-start-line="31" selection-start-column="30" selection-end-line="31" selection-end-column="30" />
+            <state relative-caret-position="1845">
+              <caret line="138" column="30" lean-forward="true" selection-start-line="138" selection-start-column="30" selection-end-line="138" selection-end-column="30" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#970#1343#0" expanded="true" />
                 <element signature="e#1342#1343#0" expanded="true" />
-                <element signature="e#2545#3385#0" expanded="true" />
-                <element signature="e#3384#3385#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -135,12 +169,13 @@
         <option value="$PROJECT_DIR$/App/SearchTest.groovy" />
         <option value="$PROJECT_DIR$/App/FileManager.java" />
         <option value="$PROJECT_DIR$/App/Search.java" />
-        <option value="$PROJECT_DIR$/App/Editor.java" />
         <option value="$PROJECT_DIR$/App/Style.java" />
-        <option value="$PROJECT_DIR$/App/GUI.java" />
-        <option value="$PROJECT_DIR$/App/Commands.java" />
-        <option value="$PROJECT_DIR$/App/Menubar.java" />
         <option value="$PROJECT_DIR$/App/Styles.java" />
+        <option value="$PROJECT_DIR$/App/Editor.java" />
+        <option value="$PROJECT_DIR$/App/Commands.java" />
+        <option value="$PROJECT_DIR$/App/GUI.java" />
+        <option value="$PROJECT_DIR$/App/GUIStyles.java" />
+        <option value="$PROJECT_DIR$/App/Menubar.java" />
       </list>
     </option>
   </component>
@@ -492,34 +527,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/jre/lib/rt.jar!/com/apple/laf/AquaButtonUI.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="218">
-          <caret line="481" column="0" lean-forward="false" selection-start-line="481" selection-start-column="0" selection-end-line="481" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/jre/lib/rt.jar!/com/apple/laf/AquaRootPaneUI.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="218">
-          <caret line="208" column="0" lean-forward="false" selection-start-line="208" selection-start-column="0" selection-end-line="208" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/src.zip!/java/awt/event/WindowEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="256">
-          <caret line="69" column="36" lean-forward="false" selection-start-line="69" selection-start-column="36" selection-end-line="69" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/src.zip!/java/lang/NumberFormatException.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="470">
-          <caret line="64" column="0" lean-forward="false" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/src.zip!/javax/swing/JDialog.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="398">
@@ -760,14 +767,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/META-INF/MANIFEST.MF" />
-    <entry file="file://$PROJECT_DIR$/App/Font.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="12" lean-forward="true" selection-start-line="0" selection-start-column="12" selection-end-line="0" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/App/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="30">
@@ -780,14 +779,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="295">
           <caret line="1099" column="16" lean-forward="false" selection-start-line="1099" selection-start-column="16" selection-end-line="1099" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/src.zip!/java/awt/Component.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="8441" column="19" lean-forward="false" selection-start-line="8441" selection-start-column="19" selection-end-line="8441" selection-end-column="19" />
           <folding />
         </state>
       </provider>
@@ -808,51 +799,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/App/Editor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-189">
-          <caret line="120" column="35" lean-forward="false" selection-start-line="120" selection-start-column="35" selection-end-line="120" selection-end-column="35" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/App/SignIn.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="571">
           <caret line="79" column="17" lean-forward="true" selection-start-line="79" selection-start-column="17" selection-end-line="79" selection-end-column="17" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/App/Menubar.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="462">
-          <caret line="215" column="0" lean-forward="true" selection-start-line="215" selection-start-column="0" selection-end-line="215" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2068#2069#0" expanded="true" />
-            <element signature="e#2099#2100#0" expanded="true" />
-            <element signature="e#7501#7502#0" expanded="true" />
-            <element signature="e#7556#7557#0" expanded="true" />
-            <element signature="e#9424#9425#0" expanded="true" />
-            <element signature="e#9467#9468#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/App/GUI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-519">
-          <caret line="31" column="30" lean-forward="false" selection-start-line="31" selection-start-column="30" selection-end-line="31" selection-end-column="30" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#970#1343#0" expanded="true" />
-            <element signature="e#1342#1343#0" expanded="true" />
-            <element signature="e#2545#3385#0" expanded="true" />
-            <element signature="e#3384#3385#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -867,10 +818,107 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/App/Styles.java">
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/src.zip!/java/awt/Component.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="35" column="29" lean-forward="false" selection-start-line="35" selection-start-column="29" selection-end-line="35" selection-end-column="29" />
+        <state relative-caret-position="140">
+          <caret line="1630" column="16" lean-forward="false" selection-start-line="1630" selection-start-column="16" selection-end-line="1630" selection-end-column="16" />
+          <folding>
+            <element signature="e#55982#55983#0" expanded="false" />
+            <element signature="e#56005#56006#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/src.zip!/java/awt/Window.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="268">
+          <caret line="1013" column="21" lean-forward="true" selection-start-line="1013" selection-start-column="21" selection-end-line="1013" selection-end-column="21" />
+          <folding>
+            <element signature="e#35456#35457#0" expanded="false" />
+            <element signature="e#35491#35492#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/src.zip!/java/awt/Dialog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="311">
+          <caret line="1004" column="22" lean-forward="false" selection-start-line="1004" selection-start-column="22" selection-end-line="1004" selection-end-column="22" />
+          <folding>
+            <element signature="e#39692#39693#0" expanded="false" />
+            <element signature="e#39727#39728#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/src.zip!/javax/swing/JColorChooser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="171" column="26" lean-forward="false" selection-start-line="171" selection-start-column="26" selection-end-line="171" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/App/GUI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1845">
+          <caret line="138" column="30" lean-forward="true" selection-start-line="138" selection-start-column="30" selection-end-line="138" selection-end-column="30" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#970#1343#0" expanded="true" />
+            <element signature="e#1342#1343#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/App/Font.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="17" lean-forward="false" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/App/Menubar.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="387">
+          <caret line="218" column="5" lean-forward="true" selection-start-line="218" selection-start-column="5" selection-end-line="218" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2077#2078#0" expanded="true" />
+            <element signature="e#2108#2109#0" expanded="true" />
+            <element signature="e#2194#2195#0" expanded="true" />
+            <element signature="e#2226#2227#0" expanded="true" />
+            <element signature="e#7775#7776#0" expanded="true" />
+            <element signature="e#7830#7831#0" expanded="true" />
+            <element signature="e#9727#9728#0" expanded="true" />
+            <element signature="e#9773#9774#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/App/FontStyles.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="25" lean-forward="true" selection-start-line="2" selection-start-column="25" selection-end-line="2" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/App/GUIStyles.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="23" lean-forward="true" selection-start-line="9" selection-start-column="23" selection-end-line="9" selection-end-column="23" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/App/Editor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-123">
+          <caret line="2" column="7" lean-forward="true" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -879,13 +927,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/App/Commands.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-6262">
-          <caret line="9" column="17" lean-forward="true" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
+        <state relative-caret-position="120">
+          <caret line="8" column="45" lean-forward="false" selection-start-line="8" selection-start-column="45" selection-end-line="8" selection-end-column="45" />
           <folding>
             <element signature="e#14542#14543#0" expanded="true" />
             <element signature="e#14600#14601#0" expanded="true" />
-            <element signature="e#15183#15184#0" expanded="true" />
-            <element signature="e#15210#15211#0" expanded="true" />
+            <element signature="e#16189#16190#0" expanded="true" />
+            <element signature="e#16220#16221#0" expanded="true" />
+            <element signature="e#16398#16399#0" expanded="true" />
+            <element signature="e#16425#16426#0" expanded="true" />
           </folding>
         </state>
       </provider>

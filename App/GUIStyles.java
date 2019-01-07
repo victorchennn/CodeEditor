@@ -10,9 +10,9 @@ import java.awt.Component;
 /** GUI Style commands.
  *  @author Victor Chen
  */
-class Styles {
+class GUIStyles {
 
-    Styles(JMenu menu, Component component){
+    GUIStyles(JMenu menu, Component component){
         _menu = menu;
         _com = component;
         createStyle();

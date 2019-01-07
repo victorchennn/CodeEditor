@@ -38,7 +38,7 @@ class Menubar {
             SEL_IB = "Select Inside Brackets",
 
             STATUS_BAR = "Status Bar", INDEX_BAR = "Index Bar",
-            FONT = "Font...", STYLE = "Style";
+            TEXT_C = "Text Color", PAD_C = "Pad Color";
 
     Menubar(GUI gui) {
         _menuBar = new JMenuBar();
@@ -59,6 +59,11 @@ class Menubar {
     /** Get file manager. */
     Commands getManager() {
         return _manager;
+    }
+
+    /** Get IndexBar from current IndexBar. */
+    JCheckBoxMenuItem getIndexBar() {
+        return _indexbar;
     }
 
     /** Create history JMenuItems in REOPEN JMenu. */
@@ -136,10 +141,13 @@ class Menubar {
         JMenu menu = createMenu(VIEW, _menuBar);
         JCheckBoxMenuItem _statusbar = createJCheckBoxMenuItem(STATUS_BAR, menu);
         _statusbar.addActionListener(e -> _manager.showStatusBar(_statusbar.isSelected()));
-        JCheckBoxMenuItem _indexbar = createJCheckBoxMenuItem(INDEX_BAR, menu);
+        _indexbar = createJCheckBoxMenuItem(INDEX_BAR, menu);
         _indexbar.addActionListener(e -> _manager.showIndexBar(_indexbar.isSelected()));
         menu.addSeparator();
         createStyleMenu(menu, _manager.getGUI().getFrame());
+        menu.addSeparator();
+        createMenuItem(TEXT_C, menu, e -> _manager.setColor(true));
+        createMenuItem(PAD_C, menu, e -> _manager.setColor(false));
     }
 
     /** Create Selection Menu, including all the commands of editor selection options. */
@@ -210,9 +218,13 @@ class Menubar {
         return menuitem;
     }
 
+    /** Create styleMenu. */
     private void createStyleMenu(JMenu menu, Component component) {
-        new Styles(menu, component);
+        new GUIStyles(menu, component);
     }
+
+    /** Menu INDEXBAR. */
+    private JCheckBoxMenuItem _indexbar;
 
     /** Menu REOPEN_LAST. */
     private JMenuItem _reopenlast;

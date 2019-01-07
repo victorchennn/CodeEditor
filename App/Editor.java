@@ -30,9 +30,10 @@ class Editor extends JTextArea {
         _inittext = getText();
         _initrows = getLineCount();
         _highlighter = getHighlighter();
-        _indexbar = createIndexBar();
         _gui = gui;
         _gui.getStatusbar().setText(file.getName() + "   0:0   ");
+        _indexbar = createIndexBar();
+        _indexbar.setVisible(_gui.getMenubar().getIndexBar().isSelected());
         getDocument().addUndoableEditListener(_undo);
         getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -118,7 +119,6 @@ class Editor extends JTextArea {
         _indexbar.setMaximumSize(new Dimension(30, 10000));
         createIndex(getLineCount());
         _indexbar.setBackground(BAR_BACKGROUND);
-        _indexbar.setVisible(true);
         return _indexbar;
     }
 

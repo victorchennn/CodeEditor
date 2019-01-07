@@ -366,6 +366,33 @@ class Commands {
         }
     }
 
+    /** Set text color iff SETTEXT or background color. */
+    void setColor(boolean setText) {
+        JScrollPane pane = (JScrollPane) _gui.getTextArea().getSelectedComponent();
+        Editor curEd = getSelectedEditor(pane);
+        if (curEd != null) {
+            if (setText) {
+                if (_textColorChooser == null) {
+                    _textColorChooser = new JColorChooser();
+                }
+                JDialog textDialog = JColorChooser.createDialog(_gui.getFrame(),
+                        "Set Text Color", false, _textColorChooser,
+                        e -> curEd.setForeground(_textColorChooser.getColor()),
+                        null);
+                textDialog.setVisible(true);
+            } else {
+                if (_padColorChooser == null) {
+                    _padColorChooser = new JColorChooser();
+                }
+                JDialog padDialog = JColorChooser.createDialog(_gui.getFrame(),
+                        "Set Pad Color", false, _padColorChooser,
+                        e -> curEd.setBackground(_padColorChooser.getColor()),
+                        null);
+                padDialog.setVisible(true);
+            }
+        }
+    }
+
     /** Get the history records. */
     Deque<Editor> getHistory() {
         return _history;
@@ -377,6 +404,7 @@ class Commands {
         _gui.getMenubar().createHistory();
     }
 
+    /** Get GUI. */
     GUI getGUI() {
         return _gui;
     }
@@ -456,6 +484,9 @@ class Commands {
         editorArea.setLayout(new BoxLayout(editorArea, BoxLayout.X_AXIS));
         return editorArea;
     }
+
+    /** TextColorChooser and BackgroundColorChooser. */
+    private JColorChooser _textColorChooser, _padColorChooser;
 
     /** All commands in search panel. */
     private Search _search;
