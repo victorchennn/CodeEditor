@@ -137,20 +137,17 @@ class Menubar {
     /** Create Selection Menu, including all the commands of editor selection options. */
     private void createSelectionMenu() {
         JMenu menu = createMenu(SEL, _menuBar);
-        createMenuItem(SEL_ADD_ABOVE, menu, KeyEvent.VK_UP, false, null);
-        createMenuItem(SEL_ADD_BELOW, menu, KeyEvent.VK_DOWN, false, null);
+        createMenuItem(SEL_TO_TOP, menu, KeyEvent.VK_UP, true, e -> _manager.select(1));
+        createMenuItem(SEL_TO_BOTTOM, menu, KeyEvent.VK_DOWN, true, e -> _manager.select(2));
         menu.addSeparator();
-        createMenuItem(SEL_TO_TOP, menu, KeyEvent.VK_UP, true, null);
-        createMenuItem(SEL_TO_BOTTOM, menu, KeyEvent.VK_DOWN, true, null);
-        menu.addSeparator();
-        createMenuItem(SEL_LINE, menu, KeyEvent.VK_L, false, null);
-        createMenuItem(SEL_WORD, menu, KeyEvent.VK_W, true, null);
-        createMenuItem(SEL_TO_BoW, menu, KeyEvent.VK_LEFT, false, null);
-        createMenuItem(SEL_TO_BoL, menu, null);
-        createMenuItem(SEL_TO_FCoL, menu, KeyEvent.VK_LEFT, true, null);
-        createMenuItem(SEL_TO_EoW, menu, KeyEvent.VK_RIGHT, false, null);
-        createMenuItem(SEL_TO_EoL, menu, KeyEvent.VK_RIGHT, true, null);
-        createMenuItem(SEL_IB, menu, KeyEvent.VK_M, true, null);
+        createMenuItem(SEL_LINE, menu, KeyEvent.VK_L, false, e -> _manager.select(3));
+        createMenuItem(SEL_WORD, menu, KeyEvent.VK_W, true, e -> _manager.select(4));
+        createMenuItem(SEL_TO_BoW, menu, KeyEvent.VK_LEFT, false, e -> _manager.select(5));
+        createMenuItem(SEL_TO_BoL, menu, e -> _manager.select(6));
+        createMenuItem(SEL_TO_FCoL, menu, KeyEvent.VK_LEFT, true, e -> _manager.select(7));
+        createMenuItem(SEL_TO_EoW, menu, KeyEvent.VK_RIGHT, false, e -> _manager.select(8));
+        createMenuItem(SEL_TO_EoL, menu, KeyEvent.VK_RIGHT, true, e -> _manager.select(9));
+        createMenuItem(SEL_IB, menu, KeyEvent.VK_M, true, e -> _manager.select(0));
     }
 
     /** Create Help Menu. */
